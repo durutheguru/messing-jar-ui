@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/login/LoginView.vue';
+import SignUpView from '@/views/signup/SignUpView.vue';
 import guard from './guard';
 
 const router = createRouter({
@@ -11,11 +12,18 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-
     {
       path: '/login',
       name: 'login',
       component: LoginView,
+      meta: {
+        skipAuth: true,
+      },
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignUpView,
       meta: {
         skipAuth: true,
       },
