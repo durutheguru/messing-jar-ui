@@ -1,71 +1,80 @@
 <template>
-    <!-- <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >
-    <v-text-field
-      v-model="name"
-      :counter="10"
-      :rules="nameRules"
-      label="Name"
-      required
-    ></v-text-field>
+    
+    <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div class="w-full max-w-md space-y-8">
+        <div>
+          <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign Up on MessingJar</h2>
+        </div>
+        <form class="mt-8 space-y-6" action="#" method="POST">
+          <input type="hidden" name="remember" value="true">
+          <div class="-space-y-px rounded-md shadow-sm">
 
-    <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
-      required
-    ></v-text-field>
+            <div>
+              <label for="email-address" class="sr-only">Username</label>
+              <input id="email-address" name="email" type="email" autocomplete="email" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address">
+            </div>
 
-    <v-select
-      v-model="select"
-      :items="items"
-      :rules="[v => !!v || 'Item is required']"
-      label="Item"
-      required
-    ></v-select>
+            <div>
+              <label for="password" class="sr-only">Password</label>
+              <input id="password" name="password" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password">
+            </div>
+          </div>
 
-    <v-checkbox
-      v-model="checkbox"
-      :rules="[v => !!v || 'You must agree to continue!']"
-      label="Do you agree?"
-      required
-    ></v-checkbox>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+              <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
+            </div>
 
-    <v-btn
-      :disabled="!valid"
-      color="success"
-      class="mr-4"
-      @click="validate"
-    >
-      Validate
-    </v-btn>
+            <div class="text-sm">
+              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
+            </div>
+          </div>
 
-    <v-btn
-      color="error"
-      class="mr-4"
-      @click="reset"
-    >
-      Reset Form
-    </v-btn>
+          <div>
+            <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <!-- Heroicon name: mini/lock-closed -->
+                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              Sign in
+            </button>
+          </div>
+        </form>
+        <div>
+            <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent border-gray-300 py-2 px-4 text-sm font-medium hover:text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              @click="signUpWithOAuthService">
+              Sign up with OAuth Service
+            </button>
+          </div>
+      </div>
+    </div>
 
-    <v-btn
-      color="warning"
-      @click="resetValidation"
-    >
-      Reset Validation
-    </v-btn>
-  </v-form> -->
-  <p>SignUp</p>
 </template>
   
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Log, Web } from '@/components/util/';
 
 export default defineComponent({
     name: 'SignUpView',
+
+    data() {
+      return {
+        username: '',
+
+      };
+    },
+
+    methods: {
+      signUpWithOAuthService() {
+        Log.info(`Navigating to OAuth Service in a bit...`);
+        Web.navigate(`${import.meta.env.VITE_OAUTH_BASE_URL}/signup?cid=${import.meta.env.VITE_OAUTH_CLIENT_ID}&rid=${import.meta.env.VITE_OAUTH_RESOURCE_SERVER_ID}`);
+      }
+    }
 });
 </script>
-  
+
+

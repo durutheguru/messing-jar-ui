@@ -29,6 +29,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/oauth-service/redirect',
+      name: 'oauth-service-redirect',
+      component: () => import('@/views/login/OAuthRedirect.vue'),
+      meta: {
+        skipAuth: true,
+      },
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
