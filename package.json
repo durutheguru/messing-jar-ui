@@ -24,6 +24,7 @@
     "moment": "^2.29.4",
     "numeral": "^2.0.6",
     "pinia": "^2.0.22",
+    "pinia-plugin-persistedstate": "^2.2.0",
     "postcss": "^8",
     "roboto-fontface": "*",
     "tailwindcss": "^3",

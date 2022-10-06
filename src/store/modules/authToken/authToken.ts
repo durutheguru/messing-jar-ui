@@ -2,7 +2,8 @@ import Web from "@/components/util/Web";
 import UserAuthContext from "./UserAuthContext";
 // import "@/interceptors/auth/AuthCheckInterceptor";
 import { Log } from "@/components/util";
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import pinia from '@/store';
 
 
 const authTokenStore = defineStore('authToken', {
@@ -11,21 +12,23 @@ const authTokenStore = defineStore('authToken', {
       username: "",
       loggedIn: false,
       authToken: null,
-      userEnabled: null,
+      refreshToken: null,
+      userEnabled: false,
       authorizations: [],
+      entryUrl: '',
     }
   },
 
   getters: {
-    username(context: any) {
+    getUsername(context: any) {
       return context.username;
     },
   
-    apiToken(context: any) {
+    getApiToken(context: any) {
       return context.authToken;
     },
   
-    loggedIn(context: any) {
+    isLoggedIn(context: any) {
       return context.loggedIn;
     },
   
@@ -33,7 +36,7 @@ const authTokenStore = defineStore('authToken', {
       return context.userEnabled;
     },
   
-    authorizations(context: any) {
+    getAuthorizations(context: any) {
       return context.authorizations;
     },
   
@@ -45,13 +48,17 @@ const authTokenStore = defineStore('authToken', {
         );
       };
     },
+
+    getEntryUrl(context: any) {
+      return context.entryUrl;
+    },
   },
   
   actions: {
     async authenticate(context: any) {
       return new Promise((resolve, reject) => {
         Web.get(
-          "/api/v1/auth",
+          "/api/auth",
   
           (response: any) => {
             resolve(true);
@@ -64,28 +71,34 @@ const authTokenStore = defineStore('authToken', {
       });
     },
 
-    apiToken(context: any, token: string) {
-      context.loggedIn = true;
-      context.authToken = token;
+    apiTokens(accessToken: string, refreshToken: string) {
+      this.loggedIn = true;
+      this.authToken = accessToken;
+      this.refreshToken = refreshToken;
   
       const userAuthContext = UserAuthContext.getInstance();
-      userAuthContext.initialize(token);
+      userAuthContext.initialize(accessToken);
   
-      context.username = userAuthContext.userId();
-      context.userEnabled = userAuthContext.isEnabled();
-      context.authorizations = userAuthContext.authorizationList();
-      Log.info(`Context State: context.userEnabled ${context.userEnabled}`);
+      this.username = userAuthContext.userId();
+      this.userEnabled = userAuthContext.isEnabled();
+      this.authorizations = userAuthContext.authorizationList();
+      Log.info(`Context State: context.userEnabled ${this.userEnabled}`);
     },
   
     logout(context: any) {
       context.loggedIn = false;
       context.authToken = null;
+      context.refreshToken = null;
   
       context.username = "";
       context.userEnabled = null;
       context.authorizations = [];
     },
   },
+
+  persist: {
+    storage: localStorage
+  }
 })
 
 export default authTokenStore;

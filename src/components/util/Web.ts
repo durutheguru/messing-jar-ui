@@ -5,7 +5,6 @@ import { Constants, Log } from ".";
 
 axios.interceptors.request.use((config: AxiosRequestConfig): any => {
   const authStore = authTokenStore();
-
   const matchingExcludePaths = Constants.authExcludeApiPaths.filter(
     (value: string, index: number) => {
       config.url = config.url || "";
@@ -19,7 +18,7 @@ axios.interceptors.request.use((config: AxiosRequestConfig): any => {
     config.url?.startsWith(import.meta.env.VITE_BASE_URL)
     && config.headers
   ) {
-    config.headers.Authorization = authStore.authToken;
+    config.headers.Authorization = "Bearer " + authStore.getApiToken;
   }
 
   return config;
@@ -35,7 +34,7 @@ axios.interceptors.response.use(
 
   (error) => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    // Do something with response error;
     const authStore = authTokenStore();
     if (error.response.status === 401 || error.response.status === 403) {
       if (authStore.loggedIn) {
@@ -135,3 +134,4 @@ export default class Web {
     return eventSource;
   }
 }
+

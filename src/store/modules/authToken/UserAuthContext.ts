@@ -77,10 +77,11 @@ export default class UserAuthContext {
     private processTokenPayload(payload: string) {
         payload = atob(payload);
         const data = JSON.parse(payload);
+        Log.info(`Processing Token Data: ${data}`);
 
         this.username = data.sub;
-        this.enabled = data.active;
-        this.authorizations = data.authorizations;
+        this.enabled = data.active || true;
+        this.authorizations = data.auth;
 
         Log.info(`Processed Token Payload: username: ${this.username}, enabled: ${this.enabled}`);
     }

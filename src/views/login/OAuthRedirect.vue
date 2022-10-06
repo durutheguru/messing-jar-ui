@@ -8,6 +8,7 @@ import { defineComponent } from 'vue';
 import { Log } from '@/components/util/';
 import LoginService from '@/services/login/LoginService';
 
+
 export default defineComponent({
     setup() {
         
@@ -23,12 +24,13 @@ export default defineComponent({
 
                 (response) => {
                     Log.info(`Response: ${JSON.stringify(response)}`);
+                    LoginService.handleSuccessfulLogin(response.data);
                 },
 
                 (error) => {
                     Log.error(`Error: ${JSON.stringify(error)}`);
                 }
-            )
+            );
         }
     }
 })
