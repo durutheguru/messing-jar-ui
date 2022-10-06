@@ -46,7 +46,7 @@ export default class Constants {
     "/navHeader",
     "/oauth/login",
     "/twitter/oauth",
-    "/api/v1/user_signup",
+    "/auth/token",
   ];
 
   // Regex constants

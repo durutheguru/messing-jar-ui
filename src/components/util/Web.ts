@@ -15,8 +15,8 @@ axios.interceptors.request.use((config: AxiosRequestConfig): any => {
 
   if (
     matchingExcludePaths.length === 0 &&
-    import.meta.env.VUE_APP_BASE_URL &&
-    config.url?.startsWith(import.meta.env.VUE_APP_BASE_URL)
+    import.meta.env.VITE_BASE_URL &&
+    config.url?.startsWith(import.meta.env.VITE_BASE_URL)
     && config.headers
   ) {
     config.headers.Authorization = authStore.authToken;
@@ -57,7 +57,7 @@ function isSSECallback(obj: SSECallback): obj is SSECallback {
 }
 
 export default class Web {
-  public static BASE_URL: string | undefined = import.meta.env.VUE_APP_BASE_URL;
+  public static BASE_URL: string | undefined = import.meta.env.VITE_BASE_URL;
 
   public static get(
     url: string,

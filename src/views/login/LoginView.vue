@@ -82,7 +82,7 @@
   
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Log } from '@/components/util/';
+import { Log, Web } from '@/components/util/';
 
 export default defineComponent({
     name: 'LoginView',
@@ -97,6 +97,8 @@ export default defineComponent({
 
     login() {
         Log.info('Login Activated');
+        Log.info(`Navigating to OAuth Service in a bit...`);
+        Web.navigate(`${import.meta.env.VITE_OAUTH_BASE_URL}/login?cid=${import.meta.env.VITE_OAUTH_CLIENT_ID}&rid=${import.meta.env.VITE_OAUTH_RESOURCE_SERVER_ID}`);
     }
 });
 </script>
