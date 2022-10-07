@@ -1,33 +1,4 @@
 <template>
-    <!-- <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >
-    <v-text-field
-      v-model="username"
-      :counter="10"
-      label="Username"
-      required
-    ></v-text-field>
-
-    <v-text-field
-        type="password"
-      v-model="password"
-      label="E-mail"
-      required
-    ></v-text-field>
-
-    <v-btn
-      :disabled="!valid"
-      color="success"
-      class="mr-4"
-      @click="login"
-    >
-      Login
-    </v-btn>
-  </v-form> -->
-
   <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-md space-y-8">
     <div>
@@ -68,13 +39,14 @@
           Sign in
         </button>
       </div>
+    </form>
 
-      <div>
-        <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent border-gray-300 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-          Sign in with OAuth Service
+    <div>
+        <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent border-gray-300 py-2 px-4 text-sm font-medium hover:text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          @click="loginWithOAuthService">
+          Login with OAuth Service
         </button>
       </div>
-    </form>
   </div>
 </div>
 
@@ -95,10 +67,17 @@ export default defineComponent({
         };
     },
 
-    login() {
-        Log.info('Login Activated');
+    methods: {
+      login() {
+          Log.info('Login Activated');
+          Log.info(`Navigating to OAuth Service in a bit...`);
+          Web.navigate(`${import.meta.env.VITE_OAUTH_BASE_URL}/login?cid=${import.meta.env.VITE_OAUTH_CLIENT_ID}&rid=${import.meta.env.VITE_OAUTH_RESOURCE_SERVER_ID}`);
+      },
+
+      loginWithOAuthService() {
         Log.info(`Navigating to OAuth Service in a bit...`);
         Web.navigate(`${import.meta.env.VITE_OAUTH_BASE_URL}/login?cid=${import.meta.env.VITE_OAUTH_CLIENT_ID}&rid=${import.meta.env.VITE_OAUTH_RESOURCE_SERVER_ID}`);
+      }
     }
 });
 </script>
