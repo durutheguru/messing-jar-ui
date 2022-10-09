@@ -16,6 +16,7 @@ const authTokenStore = defineStore('authToken', {
       userEnabled: false,
       authorizations: [],
       entryUrl: '',
+      loginError: '',
     }
   },
 
@@ -26,6 +27,10 @@ const authTokenStore = defineStore('authToken', {
   
     getApiToken(context: any) {
       return context.authToken;
+    },
+
+    getRefreshToken(context: any) {
+      return context.refreshToken;
     },
   
     isLoggedIn(context: any) {
@@ -51,6 +56,10 @@ const authTokenStore = defineStore('authToken', {
 
     getEntryUrl(context: any) {
       return context.entryUrl;
+    },
+
+    getLoginError(context: any) {
+      return context.loginError;
     },
   },
   

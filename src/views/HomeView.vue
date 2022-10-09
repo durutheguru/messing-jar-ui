@@ -58,6 +58,7 @@
 </template>
 
 <script lang="ts">
+import { Log } from '@/components/util';
 import { defineComponent } from 'vue';
 
 // Components
@@ -69,5 +70,9 @@ export default defineComponent({
   components: {
     HelloWorld,
   },
+
+  mounted() {
+    Log.info("Home View Log...");
+  }
 });
 </script>
