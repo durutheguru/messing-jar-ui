@@ -22,8 +22,22 @@
         </v-list>
       </v-navigation-drawer>
 
-    <v-app-bar app>
-      <!-- -->
+    <v-app-bar 
+      density="prominent"
+      app>
+
+      <v-app-bar-title>MessingJar</v-app-bar-title>
+
+      <template v-slot:append>
+          <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon="mdi-arrow-up-thin-circle-outline" @click="logout" v-bind="attrs"
+              v-on="on"></v-btn>
+          </template>
+          <span>Logout</span>
+        </v-tooltip>
+        </template>
+      
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
@@ -59,20 +73,21 @@
 
 <script lang="ts">
 import { Log } from '@/components/util';
+import LoginService from '@/services/login/LoginService';
 import { defineComponent } from 'vue';
-
-// Components
-import HelloWorld from '../components/HelloWorld.vue';
 
 export default defineComponent({
   name: 'HomeView',
 
-  components: {
-    HelloWorld,
-  },
-
   mounted() {
     Log.info("Home View Log...");
+  },
+
+  methods: {
+    logout() {
+      Log.info("Logging out..");
+      LoginService.logout();
+    }
   }
 });
 </script>

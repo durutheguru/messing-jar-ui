@@ -64,7 +64,7 @@ export default class LoginService {
 
     public static logout() {
         localStorage.clear();
-        Web.navigate("/");
+        Web.navigate("/login");
     }
 
 
