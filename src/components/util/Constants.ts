@@ -46,12 +46,12 @@ export default class Constants {
     "/navHeader",
     "/oauth/login",
     "/twitter/oauth",
-    "/api/v1/user_signup",
+    "/auth/token",
   ];
 
   // Regex constants
   public static regexps: any = {
-    AUTH_TOKEN: /^Bearer .+\.(.*)(\..+)+$/,
+    AUTH_TOKEN: /^.+\.(.*)(\..+)+$/,
     EMAIL: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   };
 

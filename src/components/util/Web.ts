@@ -1,11 +1,11 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import authTokenStore from "@/store/modules/authToken/authToken";
 import { Constants, Log } from ".";
+import LoginService from "@/services/login/LoginService";
 
 
 axios.interceptors.request.use((config: AxiosRequestConfig): any => {
   const authStore = authTokenStore();
-
   const matchingExcludePaths = Constants.authExcludeApiPaths.filter(
     (value: string, index: number) => {
       config.url = config.url || "";
@@ -15,11 +15,11 @@ axios.interceptors.request.use((config: AxiosRequestConfig): any => {
 
   if (
     matchingExcludePaths.length === 0 &&
-    import.meta.env.VUE_APP_BASE_URL &&
-    config.url?.startsWith(import.meta.env.VUE_APP_BASE_URL)
+    import.meta.env.VITE_BASE_URL &&
+    config.url?.startsWith(import.meta.env.VITE_BASE_URL)
     && config.headers
   ) {
-    config.headers.Authorization = authStore.authToken;
+    config.headers.Authorization = "Bearer " + authStore.getApiToken;
   }
 
   return config;
@@ -33,17 +33,40 @@ axios.interceptors.response.use(
     return response;
   },
 
-  (error) => {
+  async (error) => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+    // Do something with response error;
     const authStore = authTokenStore();
-    if (error.response.status === 401 || error.response.status === 403) {
-      if (authStore.loggedIn) {
-        Web.navigate("/");
-        Log.error("axiosError: " + JSON.stringify(error.response.status));
+    const originalConfig = error.config;
+    if (originalConfig.url.indexOf("/auth/token") < 0 && error.response) {
+      if (error.response.status === 401) {
+        if (!originalConfig._retry) {
+          originalConfig._retry = true;
+
+          try {
+            let accessToken = await LoginService.refreshAuthToken(
+              authStore.getRefreshToken
+            );
+
+            error.config.headers["Authorization"] = `Bearer ${accessToken}`;
+            return new Promise((resolve, reject) => {
+              axios.request(originalConfig)
+              .then(response => {
+                resolve(response);
+              }).catch((err) => {
+                reject(err);
+              });
+            });
+          } catch (_error) {
+            return Promise.reject(_error);
+          }
+        }
+        else {
+          LoginService.logout();
+        }
       }
     }
-    Log.error("axiosError: " + JSON.stringify(error.response.status));
+
     return Promise.reject(error);
   }
 );
@@ -57,7 +80,7 @@ function isSSECallback(obj: SSECallback): obj is SSECallback {
 }
 
 export default class Web {
-  public static BASE_URL: string | undefined = import.meta.env.VUE_APP_BASE_URL;
+  public static BASE_URL: string | undefined = import.meta.env.VITE_BASE_URL;
 
   public static get(
     url: string,
@@ -107,6 +130,14 @@ export default class Web {
       .catch(errorCallback);
   }
 
+  public static postAsync(
+    url: string, data: any,
+  ) {
+    return axios.post(
+      Web.BASE_URL + url, data
+    );
+  }
+
   public static navigate(url: string) {
     window.location.href = url;
   }
@@ -135,3 +166,4 @@ export default class Web {
     return eventSource;
   }
 }
+

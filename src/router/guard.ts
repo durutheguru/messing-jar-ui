@@ -1,22 +1,19 @@
-import pinia from '@/store';
 import authTokenStore from "@/store/modules/authToken/authToken";
 import { Log, Web, Util } from "@/components/util";
 
 
-const store = authTokenStore(pinia);
-
-
 
 const authRoute = async (to: any, next: any) => {
-  Log.info("Auth Logged In: " + store.loggedIn);
+  const store = authTokenStore();
+  Log.info("Auth Logged In: " + store.isLoggedIn);
 
-  if (store.loggedIn) {
+  if (store.isLoggedIn) {
     // TODO: fix this, convert to checking the expiration on persisted token
     const authenticated = await store.authenticate();
     if (!authenticated) {
       navigateLogin(to, next);
     } else {
-      let userActive = store.userEnabled;
+      let userActive = store.isUserActive;
       Log.info(`User Active: ${userActive}`);
       if (userActive === true) {
         Log.info(`Navigating to Path: ${to.path}`);
@@ -38,12 +35,14 @@ const authRoute = async (to: any, next: any) => {
 //   Web.navigate("/login");
 // };
 const navigateLogin = (to: any, next: any) => {
+  const store = authTokenStore();
   store.$patch({entryUrl: to.path});
   Web.navigate("/login");
 };
 
 const navigatePath = (to: any, next: any) => {
-  const url = store.getters.entryUrl;
+  const store = authTokenStore();
+  const url = store.getEntryUrl;
   const authorizations = store.authorizations;
 
   if (to.meta.auth && to.meta.auth.length > 0) {
@@ -56,7 +55,7 @@ const navigatePath = (to: any, next: any) => {
 
   if (Util.isValidString(url)) {
     next(url);
-    store.commit("entryUrl", null);
+    store.entryUrl = null;
   } else {
     next();
   }
