@@ -48,29 +48,16 @@
 
     </v-app-bar>
 
-    <!-- Sizes your content based upon application components -->
     <v-main>
-
-      <!-- Provides the application the proper gutter -->
+      
       <v-container fluid>
 
-        <v-btn flat color="secondary">
-          Secondary
-        </v-btn>
-
-        <v-btn color="blue-grey" prepend-icon="mdi-cloud-upload" @click="load(2)">
-          Upload
-        </v-btn>
-
-        <!-- If using vue-router -->
         <router-view></router-view>
+        
       </v-container>
 
     </v-main>
 
-    <v-footer app>
-      <!-- -->
-    </v-footer>
   </v-app>
 </template>
 
