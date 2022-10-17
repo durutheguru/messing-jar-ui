@@ -179,3 +179,6 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="sass" src="@/assets/ext.css" scoped></style>
+

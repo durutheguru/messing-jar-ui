@@ -4,6 +4,24 @@
     outline : 1px solid #ccc !important;
 }
 
+
 a {
     color: rgb(113, 140, 177)
 }
+
+
+header {
+    position: fixed !important;
+}
+
+
+footer {
+    position: fixed !important;
+}
+
+
+main {
+    background: #E0E0E0 !important;
+}
+
+
