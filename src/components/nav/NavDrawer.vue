@@ -1,51 +1,70 @@
 <template>
 
 
-    <v-navigation-drawer 
-        expand-on-hover rail elevation="10" v-model="drawerToggle" 
+    <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawerToggle"
         style="position:fixed;background:#0c4a6eED;color:white">
+
         <v-list>
-            <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"
+            <v-list-item title="Sandra Adams" prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
                 subtitle="sandra_a88@gmailcom"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
 
-        <v-list :items="chats" item-props lines="one">
-            <template v-slot:subtitle="{ subtitle }">
-                <div class="my-2" v-html="subtitle"></div>
-            </template>
+        <div class="px-2 pt-2 text-sm">Chats...</div>
+
+        <v-list>
+            <router-link 
+                v-for="(chat, index) in chats" 
+                :key="index" 
+                :value="chat"
+                :to="'/chat/' + chat.username"
+                class="text-white">
+                <v-list-item class="py-2 my-2">
+
+                    <template v-slot:prepend>
+                        <v-avatar :image="chat.prependAvatar"></v-avatar>
+                    </template>
+                    <v-list-item-title v-text="chat.title"></v-list-item-title>
+                    <v-list-item-subtitle v-text="chat.subtitle"></v-list-item-subtitle>
+                </v-list-item>
+
+            </router-link>
         </v-list>
 
         <v-divider></v-divider>
 
-        <v-list :items="groups" item-props lines="one">
-            <template v-slot:subtitle="{ subtitle }">
-                <div class="my-2" v-html="subtitle"></div>
-            </template>
+        <div class="px-2 pt-2 text-sm">Groups...</div>
+
+        <v-list>
+            <router-link 
+                v-for="(group, index) in groups" 
+                :key="index" 
+                :value="group" 
+                :to="'/group/' + group.groupName"
+                class="text-white">
+                <v-list-item class="py-2 my-2">
+                    <template v-slot:prepend>
+                        <v-avatar :image="group.prependAvatar"></v-avatar>
+                    </template>
+
+                    <v-list-item-title v-text="group.title"></v-list-item-title>
+                    <v-list-item-subtitle v-text="group.subtitle"></v-list-item-subtitle>
+                </v-list-item>
+            </router-link>
         </v-list>
 
         <v-divider></v-divider>
 
 
-        <v-list >
-            <v-list-item 
-                rounded="xl"
-                prepend-icon="mdi-home" 
-                title="Home" >
+        <v-list>
+            <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home">
             </v-list-item>
 
-            <v-list-item 
-                rounded="xl"
-                prepend-icon="mdi-cog-outline" 
-                title="Settings" >
+            <v-list-item rounded="xl" prepend-icon="mdi-cog-outline" title="Settings">
             </v-list-item>
 
-            <v-list-item 
-                rounded="xl"
-                prepend-icon="mdi-logout" 
-                title="Logout" 
-                @click="doLogout()">
+            <v-list-item rounded="xl" prepend-icon="mdi-logout" title="Logout" @click="doLogout()">
             </v-list-item>
         </v-list>
 
@@ -54,7 +73,7 @@
 </template>
   
 <script lang="ts">
-import { Log } from '@/components/util';
+import { Log, BaseVue } from '@/components/util';
 import LoginService from '@/services/login/LoginService';
 import { defineComponent } from 'vue';
 
@@ -66,32 +85,32 @@ export default defineComponent({
     data() {
         return {
             chats: [
-                { type: 'subheader', title: 'Chats' },
                 {
+                    username: 'david_mayor',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
                     title: 'David Mayor',
                     subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
                 },
-                { type: 'divider', inset: true },
                 {
+                    username: 'elvis_mukky',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
                     title: 'Elvis Muktar',
                     subtitle: `Wish I could come, but I'm out of town this weekend.`,
                 },
-                { type: 'divider', inset: true },
                 {
+                    username: 'anna_siseee',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
                     title: 'Anna Sise',
                     subtitle: 'Do you have Paris recommendations? Have you ever been?',
                 },
-                { type: 'divider', inset: true },
                 {
+                    username: 'jen_jen',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
                     title: 'Jennyyy',
                     subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
                 },
-                { type: 'divider', inset: true },
                 {
+                    username: 'sussy_samuel',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
                     title: 'Susan Samuels',
                     subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
@@ -99,34 +118,34 @@ export default defineComponent({
             ],
 
             groups: [
-                { type: 'subheader', title: 'Groups' },
                 {
+                    groupName: 'ballers',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                    title: 'David Mayor',
+                    title: 'Ballers',
                     subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
                 },
-                { type: 'divider', inset: true },
                 {
+                    groupName: 'fiddlerz',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                    title: 'Elvis Muktar',
+                    title: 'Fiddlers',
                     subtitle: `Wish I could come, but I'm out of town this weekend.`,
                 },
-                { type: 'divider', inset: true },
                 {
+                    groupName: 'tuny_tunez',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                    title: 'Anna Sise',
+                    title: 'Music Lovers',
                     subtitle: 'Do you have Paris recommendations? Have you ever been?',
                 },
-                { type: 'divider', inset: true },
                 {
+                    groupName: 'donors',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-                    title: 'Jennyyy',
+                    title: 'Donors',
                     subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
                 },
-                { type: 'divider', inset: true },
                 {
+                    groupName: 'bookies',
                     prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                    title: 'Susan Samuels',
+                    title: 'Book Club',
                     subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
                 },
             ],
@@ -173,6 +192,8 @@ export default defineComponent({
     },
 
     methods: {
+        ...BaseVue.methods(),
+
         doLogout() {
             Log.info("Handling Logout...");
             this.$emit("logout");

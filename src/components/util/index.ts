@@ -4,4 +4,5 @@ export { default as Log } from './Log';
 export { default as Util } from './Util';
 export { default as Constants } from './Constants';
 export { default as Security } from './Security';
+export { default as BaseVue } from './BaseVue';
 

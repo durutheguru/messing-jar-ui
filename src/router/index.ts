@@ -38,11 +38,13 @@ const router = createRouter({
       children: [
         {
           path: 'chat',
+          alias: ['chat/:username'],
           name: 'chat',
           component: () => import('@/views/main/chat/UserChat.vue'),
         },
         {
           path: 'group',
+          alias: ['group/:group_name'],
           name: 'group',
           component: () => import('@/views/main/chat/GroupChat.vue'),
         }

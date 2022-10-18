@@ -28,7 +28,7 @@
                 </v-btn>
             </div>
             <div class="grow max-height">
-                <v-textarea class="max-height mt-1" hide-details placeholder="Type your message..." no-resize rows="1" >
+                <v-textarea class="max-height mt-1" hide-details placeholder="Message..." no-resize rows="1" >
                 </v-textarea>
             </div>
             <div class="flex-none">
