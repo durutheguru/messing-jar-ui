@@ -1,7 +1,7 @@
 <template>
-  <!-- <hello-world /> -->
+  
   <v-app>
-    <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
+    <!-- <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
       style="position:fixed;background:#059669ED;color:white">
       <v-list>
         <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"
@@ -29,7 +29,9 @@
 
       <v-list :items="mainActionItems"></v-list>
 
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
+
+    <nav-drawer :drawer="drawer" @update:modelValue="setDrawer(!drawer)" />
 
     <v-app-bar app>
 
@@ -63,14 +65,28 @@
 </template>
 
 <script lang="ts">
+import NavDrawer from '@/components/nav/NavDrawer.vue';
 import { Log } from '@/components/util';
 import LoginService from '@/services/login/LoginService';
 import { defineComponent } from 'vue';
 
+
+declare interface HomeVueData {
+  drawer: Boolean | null,
+  chats: Array<any>,
+  groups: Array<any>,
+  mainActionItems: Array<any>
+};
+
+
 export default defineComponent({
   name: 'HomeView',
 
-  data() {
+  components: {
+    NavDrawer,
+  },
+
+  data(): HomeVueData {
     return {
       drawer: null,
 
@@ -176,7 +192,11 @@ export default defineComponent({
     logout() {
       Log.info("Logging out..");
       LoginService.logout();
-    }
+    },
+
+    setDrawer(drawer: boolean) {
+      this.drawer = drawer;
+    },
   }
 });
 </script>
