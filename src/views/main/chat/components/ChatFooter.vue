@@ -29,7 +29,7 @@
                 </v-btn>
             </div>
             <div class="grow max-height">
-                <v-textarea class="max-height mt-1" placeholder="Type your message..." filled no-resize rows="1" row-height="20">
+                <v-textarea class="max-height mt-1" hide-details placeholder="Type your message..." no-resize rows="1" >
                 </v-textarea>
             </div>
             <div class="flex-none">
@@ -57,7 +57,7 @@
     import { defineComponent } from 'vue';
 
     export default defineComponent({
-        name: 'AppFooter',
+        name: 'ChatFooter',
 
     });
 
