@@ -34,4 +34,10 @@ nav {
     outline : 1px solid #ccc !important;
 }
 
-
+#group-chat-header-descriptor {
+    box-shadow: 5px 5px 4px #222;
+    background: white;
+    position: fixed;
+    z-index: 166;
+    border-radius: 6px;
+}

@@ -1,6 +1,5 @@
 <template>
     
-
     <v-footer elevation="20" app>
         <div class="w-full flex gap-2">
             <div class="py-2 flex-none grid grid-cols-3 gap-2 hidden lg:grid md:hidden sm:hidden">

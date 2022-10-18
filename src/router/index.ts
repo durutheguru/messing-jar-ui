@@ -40,6 +40,11 @@ const router = createRouter({
           path: 'chat',
           name: 'chat',
           component: () => import('@/views/main/chat/UserChat.vue'),
+        },
+        {
+          path: 'group',
+          name: 'group',
+          component: () => import('@/views/main/chat/GroupChat.vue'),
         }
       ]
     },
