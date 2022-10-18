@@ -2,7 +2,7 @@
   <!-- <hello-world /> -->
   <v-app>
     <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
-      style="position:fixed;">
+      style="position:fixed;background:#059669DE;color:white">
       <v-list>
         <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"
           subtitle="sandra_a88@gmailcom"></v-list-item>
@@ -72,7 +72,7 @@ export default defineComponent({
 
   data() {
     return {
-      drawer: true,
+      drawer: null,
 
       chats: [
         { type: 'subheader', title: 'Chats' },
