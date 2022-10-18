@@ -92,7 +92,7 @@
 
     <v-footer elevation="20" app>
         <div class="w-full grid grid-cols-12 gap-2">
-            <div class="py-5 col-span-2 grid grid-cols-3 gap-2">
+            <div class="py-5 col-span-3 grid grid-cols-3 gap-2">
                 <v-btn class="col-span-1" :loading="false" :disabled="false" color="primary" size="small"
                     prepend-icon="mdi-cloud-upload">
                     Upload
@@ -106,7 +106,7 @@
                     Camera
                 </v-btn>
             </div>
-            <div class="col-span-9">
+            <div class="col-span-8">
                 <v-textarea placeholder="Message" filled no-resize rows="1" row-height="20">
                 </v-textarea>
             </div>
