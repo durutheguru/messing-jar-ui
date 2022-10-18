@@ -1,9 +1,5 @@
 
 
-.outline-grey-ccc {
-    outline : 1px solid #ccc !important;
-}
-
 
 a {
     color: rgb(113, 140, 177)
@@ -26,6 +22,16 @@ main {
 
 nav {
     position: fixed !important;
+}
+
+
+.max-height {
+    height: 100%;
+}
+
+
+.outline-grey-ccc {
+    outline : 1px solid #ccc !important;
 }
 
 

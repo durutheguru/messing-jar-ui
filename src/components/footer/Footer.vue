@@ -4,15 +4,15 @@
     <v-footer elevation="20" app>
         <div class="w-full flex gap-2">
             <div class="py-2 flex-none grid grid-cols-3 gap-2 hidden lg:grid md:hidden sm:hidden">
-                <v-btn class="col-span-1" :loading="false" :disabled="false" color="primary" size="small"
+                <v-btn class="col-span-1 max-height" :loading="false" :disabled="false" color="primary" size="small"
                     prepend-icon="mdi-cloud-upload">
                     Upload
                 </v-btn>
-                <v-btn class="col-span-1" :loading="false" :disabled="false" color="blue-grey" size="small"
+                <v-btn class="col-span-1 max-height" :loading="false" :disabled="false" color="blue-grey" size="small"
                     prepend-icon="mdi-microphone">
                     Voice
                 </v-btn>
-                <v-btn class="col-span-1" :loading="false" :disabled="false" color="info" size="small"
+                <v-btn class="col-span-1 max-height" :loading="false" :disabled="false" color="info" size="small"
                     prepend-icon="mdi-camera">
                     Camera
                 </v-btn>
@@ -28,14 +28,14 @@
                     icon="mdi-camera">
                 </v-btn>
             </div>
-            <div class="grow">
-                <v-textarea placeholder="Type your message..." filled no-resize rows="1" row-height="20">
+            <div class="grow max-height">
+                <v-textarea class="max-height mt-1" placeholder="Type your message..." filled no-resize rows="1" row-height="20">
                 </v-textarea>
             </div>
             <div class="flex-none">
-                <div class="fill-height">
-                    <div class="lg:block md:hidden sm:hidden hidden">
-                        <v-btn block :loading="false" :disabled="false" color="info"
+                <div class="fill-height max-height">
+                    <div class="lg:block md:hidden sm:hidden hidden max-height">
+                        <v-btn class="max-height" block :loading="false" :disabled="false" color="info"
                             append-icon="mdi-send">
                             Send
                         </v-btn>
