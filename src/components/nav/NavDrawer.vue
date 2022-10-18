@@ -28,10 +28,28 @@
         <v-divider></v-divider>
 
 
-        <v-list :items="mainActionItems"></v-list>
+        <v-list>
+            <v-list-item 
+                rounded="xl"
+                prepend-icon="mdi-home" 
+                title="Home" >
+            </v-list-item>
+
+            <v-list-item 
+                rounded="xl"
+                prepend-icon="mdi-cog-outline" 
+                title="Settings" >
+            </v-list-item>
+
+            <v-list-item 
+                rounded="xl"
+                prepend-icon="mdi-logout" 
+                title="Logout" 
+                @click="doLogout()">
+            </v-list-item>
+        </v-list>
 
     </v-navigation-drawer>
-
 
 </template>
   
@@ -120,6 +138,7 @@ export default defineComponent({
                     props: {
                         prependIcon: 'mdi-home',
                     },
+                    action: ''
                 },
 
                 {
@@ -128,6 +147,7 @@ export default defineComponent({
                     props: {
                         prependIcon: 'mdi-cog-outline',
                     },
+                    action: ''
                 },
 
                 {
@@ -136,6 +156,7 @@ export default defineComponent({
                     props: {
                         prependIcon: 'mdi-logout',
                     },
+                    action: 'doLogout'
                 },
             ]
         };
@@ -150,6 +171,13 @@ export default defineComponent({
     mounted() {
         Log.info("Nav Drawer Mounted...");
     },
+
+    methods: {
+        doLogout() {
+            Log.info("Handling Logout...");
+            this.$emit("logout");
+        }
+    }
 
 });
 </script>

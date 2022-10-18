@@ -1,37 +1,10 @@
 <template>
   
   <v-app>
-    <!-- <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
-      style="position:fixed;background:#059669ED;color:white">
-      <v-list>
-        <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"
-          subtitle="sandra_a88@gmailcom"></v-list-item>
-      </v-list>
-
-      <v-divider></v-divider>
-
-      <v-list :items="chats" item-props lines="one">
-        <template v-slot:subtitle="{ subtitle }">
-          <div class="my-2" v-html="subtitle"></div>
-        </template>
-      </v-list>
-
-      <v-divider></v-divider>
-
-      <v-list :items="groups" item-props lines="one">
-        <template v-slot:subtitle="{ subtitle }">
-          <div class="my-2" v-html="subtitle"></div>
-        </template>
-      </v-list>
-
-      <v-divider></v-divider>
-
-
-      <v-list :items="mainActionItems"></v-list>
-
-    </v-navigation-drawer> -->
-
-    <nav-drawer :drawer="drawer" @update:modelValue="setDrawer(!drawer)" />
+    <nav-drawer 
+      :drawer="drawer" 
+      @update:modelValue="setDrawer(!drawer)"
+      @logout="logout()" />
 
     <v-app-bar app>
 
