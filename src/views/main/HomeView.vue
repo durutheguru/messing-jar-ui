@@ -2,7 +2,7 @@
   <!-- <hello-world /> -->
   <v-app>
     <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
-      style="position:fixed;background:#059669DE;color:white">
+      style="position:fixed;background:#059669ED;color:white">
       <v-list>
         <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"
           subtitle="sandra_a88@gmailcom"></v-list-item>
