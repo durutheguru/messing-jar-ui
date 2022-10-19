@@ -1,35 +1,80 @@
 <template>
-  
+
   <v-app>
-    <nav-drawer 
-      :drawer="drawer" 
-      @update:modelValue="setDrawer(!drawer)"
-      @logout="logout()" />
+    <nav-drawer :drawer="drawer" @update:modelValue="setDrawer(!drawer)" @logout="logout()" />
 
     <v-app-bar app>
 
       <template v-slot:prepend>
-          <v-app-bar-nav-icon @click.stop="drawer=!drawer"></v-app-bar-nav-icon>
-        </template>
+        <v-app-bar-nav-icon @click.stop="drawer=!drawer"></v-app-bar-nav-icon>
+      </template>
 
       <v-app-bar-title>MessingJar</v-app-bar-title>
 
-      <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+      <v-btn v-if="search==null" @click="search=''" icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
+      <v-menu v-if="search!=null" open-on-focus transition="slide-y-transition">
+        <template v-slot:activator="{ props }">
+
+          <v-text-field v-bind="props" v-show="search!=null" v-model="search" density="compact" variant="underlined"
+            placeholder="Search" append-inner-icon="mdi-close" single-line hide-details
+            @click:append-inner="cancelSearch"></v-text-field>
+
+        </template>
+
+        <v-card min-width="300">
+          <v-list>
+            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
+              subtitle="Founder of Vuetify">
+              <template v-slot:append>
+                <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart" @click="fav = !fav"></v-btn>
+              </template>
+            </v-list-item>
+          </v-list>
+
+          <v-divider></v-divider>
+
+          <v-list>
+            <v-list-item>
+              <v-switch color="purple" label="Enable messages" hide-details></v-switch>
+            </v-list-item>
+
+            <v-list-item>
+              <v-switch color="purple" label="Enable hints" hide-details></v-switch>
+            </v-list-item>
+          </v-list>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn text @click="menu = false">
+              Cancel
+            </v-btn>
+            <v-btn color="primary" text @click="menu = false">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+
+
 
       <template v-slot:append>
-          <v-btn icon="mdi-dots-vertical"></v-btn>
-        </template>
+        <v-btn icon="mdi-dots-vertical"></v-btn>
+      </template>
+
+
 
     </v-app-bar>
 
     <v-main>
-      
+
       <v-container fluid>
 
         <router-view></router-view>
-        
+
       </v-container>
 
     </v-main>
@@ -45,7 +90,10 @@ import { defineComponent } from 'vue';
 
 
 declare interface HomeVueData {
+  fav?: Boolean,
+  menu?: Boolean,
   drawer: Boolean | null,
+  search: String | null,
   chats: Array<any>,
   groups: Array<any>,
   mainActionItems: Array<any>
@@ -61,7 +109,13 @@ export default defineComponent({
 
   data(): HomeVueData {
     return {
+      fav: true,
+
+      menu: true,
+
       drawer: null,
+
+      search: null,
 
       chats: [
         { type: 'subheader', title: 'Chats' },
@@ -170,9 +224,12 @@ export default defineComponent({
     setDrawer(drawer: boolean) {
       this.drawer = drawer;
     },
+
+    cancelSearch() {
+      this.search = null;
+    }
   }
 });
 </script>
 
 <style lang="sass" src="@/assets/ext.css" scoped></style>
-
