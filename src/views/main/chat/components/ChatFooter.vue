@@ -17,14 +17,18 @@
                 </v-btn>
             </div>
             <div class="py-2 flex-none grid grid-cols-3 gap-2 lg:hidden md:grid sm:grid">
-                <v-btn class="col-span-1" :loading="false" :disabled="false" color="primary" size="small"
-                    icon="mdi-cloud-upload">
+                <v-btn class="col-span-1" :loading="false" :disabled="false" color="primary" size="small" icon>
+                    <v-tooltip activator="parent" location="top">Upload</v-tooltip>
+                    <v-icon>mdi-cloud-upload</v-icon>
                 </v-btn>
                 <v-btn class="col-span-1" :loading="false" :disabled="false" color="blue-grey" size="small"
-                    icon="mdi-microphone">
+                    icon>
+                    <v-tooltip activator="parent" location="top">Voice Recording</v-tooltip>
+                    <v-icon>mdi-microphone</v-icon>
                 </v-btn>
-                <v-btn class="col-span-1" :loading="false" :disabled="false" color="info" size="small"
-                    icon="mdi-camera">
+                <v-btn class="col-span-1" :loading="false" :disabled="false" color="info" size="small" icon>
+                    <v-tooltip activator="parent" location="top">Camera</v-tooltip>
+                    <v-icon>mdi-camera</v-icon>
                 </v-btn>
             </div>
             <div class="grow max-height">
@@ -41,7 +45,9 @@
                     </div>
                     <div class="md:block lg:hidden xl:hidden block">
                         <v-btn block :loading="false" :disabled="false" color="info"
-                            icon="mdi-send">
+                            icon>
+                            <v-tooltip activator="parent" location="top">Send</v-tooltip>
+                            <v-icon>mdi-send</v-icon>
                         </v-btn>
                     </div>
                 </div>
