@@ -11,7 +11,7 @@
     border-radius: 4px;
 }
 
-.dashboard-metric-row {
+.dashboard-main-cards {
     @apply col-span-3 grid grid-cols-2 gap-1
 }
 
@@ -32,8 +32,12 @@
 
 @screen lg {
 
-    .dashboard-metric-row {
-        @apply col-span-4 grid-cols-4
+    .dashboard-main-cards {
+        @apply col-span-4
+    }
+
+    .dashboard-metrics-row {
+        @apply grid grid-cols-4 gap-2 
     }
 
 
@@ -47,7 +51,7 @@
     }
 
     #graph-container {
-        @apply col-span-4
+        @apply col-span-4;
     }
 
 }

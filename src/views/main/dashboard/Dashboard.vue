@@ -1,25 +1,26 @@
 
 <template>
     <div class="grid grid-cols-5 gap-2">
-        <div class="dashboard-metric-row auto-rows-auto">
-            <dashboard-metric icon="mdi-reply-outline" label="Incoming Messages" :klass="{'bg-[#0284c7]':true}"
-                :metrics-object="metricsObject" />
+        <div class="dashboard-main-cards">
+            <div class="col-span-4 flex flex-col gap-2">
+                <div class="dashboard-metrics-row">
 
-            <dashboard-metric icon="mdi-share-outline" label="Outgoing Messages" :klass="{'bg-[#0369a1]':true}"
-                :metrics-object="metricsObject" />
+                    <dashboard-metric icon="mdi-reply-outline" label="Incoming Messages" :klass="{'bg-[#0284c7]':true}"
+                        :metrics-object="metricsObject" />
 
-            <dashboard-metric icon="mdi-chat" label="Active Chats" :klass="{'bg-[#075985]':true}"
-                :metrics-object="metricsObject" />
+                    <dashboard-metric icon="mdi-share-outline" label="Outgoing Messages" :klass="{'bg-[#0369a1]':true}"
+                        :metrics-object="metricsObject" />
 
-            <dashboard-metric icon="mdi-account-multiple-plus-outline" label="Active Groups"
-                :klass="{'bg-[#0c4a6e]':true}" :metrics-object="metricsObject" />
+                    <dashboard-metric icon="mdi-chat" label="Active Chats" :klass="{'bg-[#075985]':true}"
+                        :metrics-object="metricsObject" />
 
-            <v-card id="graph-container" class="col-span-4 p-4">
-                <div class="font-weight text-4xl ml-1 mb-2">
-                    Activity Graph
+                    <dashboard-metric icon="mdi-account-multiple-plus-outline" label="Active Groups"
+                        :klass="{'bg-[#0c4a6e]':true}" :metrics-object="metricsObject" />
+
                 </div>
+
                 <dashboard-graph />
-            </v-card>
+            </div>
         </div>
         <div id="dashboard-side-cards" class="flex flex-col gap-2">
             <dashboard-recent-activity />

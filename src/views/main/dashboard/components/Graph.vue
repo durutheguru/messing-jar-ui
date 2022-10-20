@@ -1,5 +1,11 @@
 <template>
-    <line-chart :chart-data="testData" :height="350" />
+    <v-card id="graph-container" class="p-4">
+        <div class="font-weight text-4xl ml-1 mb-2">
+            Activity Graph
+        </div>
+
+        <line-chart :chart-data="testData" :height="350" />
+    </v-card>
 </template>
 
 <script lang="ts">
