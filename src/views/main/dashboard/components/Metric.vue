@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard-metric text-white" :class="metricsComponentKlass">
+    <div class="dashboard-metric max-h-20 text-white" :class="metricsComponentKlass">
         <div class="flex">
             <div class="flex-none">
                 <v-btn class="ma-2" color="indigo" :icon="icon"></v-btn>

@@ -6,7 +6,7 @@
 
 
 .dashboard-metric {
-    @apply col-span-2 p-2;
+    @apply col-span-3 p-2;
     border: 1px solid gray;
     border-radius: 4px;
 }
@@ -15,30 +15,39 @@
     @apply col-span-3 grid grid-cols-2 gap-1
 }
 
-#dashboard-recent-activity {
-    @apply col-span-2 p-2 
+#dashboard-side-cards {
+    @apply col-span-2
+}
+
+#graph-container {
+    @apply col-span-2
 }
 
 
 @screen md {
 
-    .dashboard-metric-row {
-        @apply col-span-4 grid-cols-4
-    }
-
-    #dashboard-recent-activity {
-        @apply col-span-1
-    }
 
 }
 
 
 @screen lg {
 
+    .dashboard-metric-row {
+        @apply col-span-4 grid-cols-4
+    }
+
+
+    #dashboard-side-cards {
+        @apply col-span-1
+    }
+
 
     .dashboard-metric {
         @apply col-span-1;
     }
 
-    
+    #graph-container {
+        @apply col-span-4
+    }
+
 }

@@ -1,42 +1,49 @@
 
 <template>
     <div class="grid grid-cols-5 gap-2">
-        <div class="dashboard-metric-row">
-            <dashboard-metric 
-                icon="mdi-reply-outline" 
-                label="Incoming Messages" 
-                :klass="{'bg-[#0284c7]':true}"
+        <div class="dashboard-metric-row auto-rows-auto">
+            <dashboard-metric icon="mdi-reply-outline" label="Incoming Messages" :klass="{'bg-[#0284c7]':true}"
                 :metrics-object="metricsObject" />
 
-            <dashboard-metric 
-                icon="mdi-share-outline" 
-                label="Outgoing Messages" 
-                :klass="{'bg-[#0369a1]':true}"
+            <dashboard-metric icon="mdi-share-outline" label="Outgoing Messages" :klass="{'bg-[#0369a1]':true}"
                 :metrics-object="metricsObject" />
 
-            <dashboard-metric 
-                icon="mdi-chat" 
-                label="Active Chats" 
-                :klass="{'bg-[#075985]':true}"
+            <dashboard-metric icon="mdi-chat" label="Active Chats" :klass="{'bg-[#075985]':true}"
                 :metrics-object="metricsObject" />
 
-            <dashboard-metric 
-                icon="mdi-account-multiple-plus-outline" 
-                label="Active Groups" 
-                :klass="{'bg-[#0c4a6e]':true}"
-                :metrics-object="metricsObject" />
+            <dashboard-metric icon="mdi-account-multiple-plus-outline" label="Active Groups"
+                :klass="{'bg-[#0c4a6e]':true}" :metrics-object="metricsObject" />
+
+            <v-card id="graph-container" class="col-span-4 p-4">
+                <div class="font-weight text-4xl ml-1 mb-2">
+                    Activity Graph
+                </div>
+                <dashboard-graph />
+            </v-card>
         </div>
-        <div id="dashboard-recent-activity">o</div>
+        <div id="dashboard-side-cards" class="flex flex-col gap-2">
+            <dashboard-recent-activity />
+            <dashboard-pie />
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import DashboardMetric from './components/DashboardMetric.vue';
+import DashboardMetric from './components/Metric.vue';
+import DashboardRecentActivity from './components/RecentActivity.vue';
+import DashboardGraph from './components/Graph.vue';
+import DashboardPie from './components/SentimentsPie.vue';
+
+
 
 export default defineComponent({
     components: {
         DashboardMetric,
+        DashboardRecentActivity,
+        DashboardGraph,
+        DashboardPie,
     },
 
     data() {
@@ -58,7 +65,7 @@ export default defineComponent({
                     value: 12849,
                     label: "This Year"
                 },
-            ]
+            ],
         };
     },
 });
