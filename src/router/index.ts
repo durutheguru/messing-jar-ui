@@ -37,6 +37,11 @@ const router = createRouter({
       component: HomeView,
       children: [
         {
+          path: '/',
+          name: 'dashboard',
+          component: () => import('@/views/main/dashboard/Dashboard.vue'),
+        },
+        {
           path: 'chat',
           alias: ['chat/:username'],
           name: 'chat',

@@ -14,11 +14,7 @@
         <div class="px-2 pt-2 text-sm">Chats...</div>
 
         <v-list>
-            <router-link 
-                v-for="(chat, index) in chats" 
-                :key="index" 
-                :value="chat"
-                :to="'/chat/' + chat.username"
+            <router-link v-for="(chat, index) in chats" :key="index" :value="chat" :to="'/chat/' + chat.username"
                 class="text-white">
                 <v-list-item class="py-2 my-2">
 
@@ -37,11 +33,7 @@
         <div class="px-2 pt-2 text-sm">Groups...</div>
 
         <v-list>
-            <router-link 
-                v-for="(group, index) in groups" 
-                :key="index" 
-                :value="group" 
-                :to="'/group/' + group.groupName"
+            <router-link v-for="(group, index) in groups" :key="index" :value="group" :to="'/group/' + group.groupName"
                 class="text-white">
                 <v-list-item class="py-2 my-2">
                     <template v-slot:prepend>
@@ -58,8 +50,10 @@
 
 
         <v-list>
-            <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home">
-            </v-list-item>
+            <router-link class="text-white" to="/">
+                <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home">
+                </v-list-item>
+            </router-link>
 
             <v-list-item rounded="xl" prepend-icon="mdi-cog-outline" title="Settings">
             </v-list-item>

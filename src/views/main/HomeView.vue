@@ -24,8 +24,9 @@
 
         </template>
 
-        <v-card min-width="300">
+        <v-card min-width="300" class="pb-5">
           <v-list>
+            <v-list-subheader>Recent Search...</v-list-subheader>
             <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
               subtitle="Founder of Vuetify">
               <template v-slot:append>
@@ -36,26 +37,22 @@
 
           <v-divider></v-divider>
 
-          <v-list>
-            <v-list-item>
-              <v-switch color="purple" label="Enable messages" hide-details></v-switch>
-            </v-list-item>
 
-            <v-list-item>
-              <v-switch color="purple" label="Enable hints" hide-details></v-switch>
+          <v-list>
+            <v-list-subheader>Results...</v-list-subheader>
+            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
+              subtitle="Founder of Vuetify">
+              <template v-slot:append>
+                <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart" @click="fav = !fav"></v-btn>
+              </template>
+            </v-list-item>
+            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
+              subtitle="Founder of Vuetify">
+              <template v-slot:append>
+                <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart" @click="fav = !fav"></v-btn>
+              </template>
             </v-list-item>
           </v-list>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn text @click="menu = false">
-              Cancel
-            </v-btn>
-            <v-btn color="primary" text @click="menu = false">
-              Save
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-menu>
 
