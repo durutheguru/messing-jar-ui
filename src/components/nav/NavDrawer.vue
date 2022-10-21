@@ -14,18 +14,15 @@
         <div class="px-2 pt-2 text-sm">Chats...</div>
 
         <v-list>
-            <router-link v-for="(chat, index) in chats" :key="index" :value="chat" :to="'/chat/' + chat.username"
-                class="text-white">
-                <v-list-item class="py-2 my-2">
-
-                    <template v-slot:prepend>
-                        <v-avatar :image="chat.prependAvatar"></v-avatar>
-                    </template>
-                    <v-list-item-title v-text="chat.title"></v-list-item-title>
-                    <v-list-item-subtitle v-text="chat.subtitle"></v-list-item-subtitle>
-                </v-list-item>
-
-            </router-link>
+            <v-list-item
+                v-for="(chat, index) in chats" :key="index" :value="chat" :to="'/chat/' + chat.username"
+                class="py-2 my-2 text-white">
+                <template v-slot:prepend>
+                    <v-avatar :image="chat.prependAvatar"></v-avatar>
+                </template>
+                <v-list-item-title v-text="chat.title"></v-list-item-title>
+                <v-list-item-subtitle v-text="chat.subtitle"></v-list-item-subtitle>
+            </v-list-item>
         </v-list>
 
         <v-divider></v-divider>
@@ -33,17 +30,17 @@
         <div class="px-2 pt-2 text-sm">Groups...</div>
 
         <v-list>
-            <router-link v-for="(group, index) in groups" :key="index" :value="group" :to="'/group/' + group.groupName"
-                class="text-white">
-                <v-list-item class="py-2 my-2">
-                    <template v-slot:prepend>
-                        <v-avatar :image="group.prependAvatar"></v-avatar>
-                    </template>
+            <v-list-item 
+                v-for="(group, index) in groups" :key="index" :value="group" 
+                :to="'/group/' + group.groupName"
+                class="py-2 my-2 text-white">
+                <template v-slot:prepend>
+                    <v-avatar :image="group.prependAvatar"></v-avatar>
+                </template>
 
-                    <v-list-item-title v-text="group.title"></v-list-item-title>
-                    <v-list-item-subtitle v-text="group.subtitle"></v-list-item-subtitle>
-                </v-list-item>
-            </router-link>
+                <v-list-item-title v-text="group.title"></v-list-item-title>
+                <v-list-item-subtitle v-text="group.subtitle"></v-list-item-subtitle>
+            </v-list-item>
         </v-list>
 
         <v-divider></v-divider>
