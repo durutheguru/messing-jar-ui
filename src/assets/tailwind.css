@@ -12,7 +12,7 @@
 }
 
 .dashboard-main-cards {
-    @apply col-span-3 grid grid-cols-2 gap-1
+    @apply col-span-3 grid grid-cols-2 gap-2
 }
 
 #dashboard-side-cards {
@@ -37,7 +37,7 @@
     }
 
     .dashboard-metrics-row {
-        @apply grid grid-cols-4 gap-2 
+        @apply grid grid-cols-4 gap-2
     }
 
 

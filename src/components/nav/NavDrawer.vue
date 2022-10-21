@@ -50,10 +50,8 @@
 
 
         <v-list>
-            <router-link class="text-white" to="/">
-                <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home">
-                </v-list-item>
-            </router-link>
+            <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home" @click="goHome()">
+            </v-list-item>
 
             <v-list-item rounded="xl" prepend-icon="mdi-cog-outline" title="Settings">
             </v-list-item>
@@ -191,7 +189,11 @@ export default defineComponent({
         doLogout() {
             Log.info("Handling Logout...");
             this.$emit("logout");
-        }
+        },
+
+        goHome() {
+            this.$router.push("/");
+        },
     }
 
 });
