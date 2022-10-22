@@ -13,7 +13,6 @@
                             <span class="grow">
                                 {{ message.message }}. <span class="flex-none text-blue-500">5 mins</span>
                             </span>
-
                         </div>
                     </v-timeline-item>
                 </v-timeline>

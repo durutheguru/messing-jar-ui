@@ -1,5 +1,5 @@
 <template>
-    <v-card id="graph-container" class="p-4">
+    <v-card id="graph-container" theme="dark" class="p-4">
         <div class="font-weight text-2xl ml-1 mb-2">
             Top MessingJars
         </div>

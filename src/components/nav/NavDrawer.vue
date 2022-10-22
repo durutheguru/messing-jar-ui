@@ -50,7 +50,7 @@
             <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home" @click="goHome()">
             </v-list-item>
 
-            <v-list-item rounded="xl" prepend-icon="mdi-cog-outline" title="Settings">
+            <v-list-item rounded="xl" prepend-icon="mdi-cog-outline" title="Settings" @click="goSettings()">
             </v-list-item>
 
             <v-list-item rounded="xl" prepend-icon="mdi-logout" title="Logout" @click="doLogout()">
@@ -190,6 +190,10 @@ export default defineComponent({
 
         goHome() {
             this.$router.push("/");
+        },
+
+        goSettings() {
+            this.$router.push("/settings");
         },
     }
 

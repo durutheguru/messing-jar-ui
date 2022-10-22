@@ -40,18 +40,28 @@ const router = createRouter({
           path: '/',
           name: 'dashboard',
           component: () => import('@/views/main/dashboard/Dashboard.vue'),
+          meta: {
+            skipAuth: true,
+          },
         },
+
         {
           path: 'chat',
           alias: ['chat/:username'],
           name: 'chat',
           component: () => import('@/views/main/chat/UserChat.vue'),
         },
+
         {
           path: 'group',
           alias: ['group/:group_name'],
           name: 'group',
           component: () => import('@/views/main/chat/GroupChat.vue'),
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('@/views/main/settings/Settings.vue'),
         }
       ]
     },

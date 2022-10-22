@@ -16,10 +16,6 @@ footer {
 }
 
 
-main {
-    background: #E0E0E0 !important;
-}
-
 nav {
     position: fixed !important;
 }
@@ -41,3 +37,11 @@ nav {
     z-index: 166;
     border-radius: 6px;
 }
+
+
+.v-field__input {
+    margin-top: 10px !important;
+}
+
+
+

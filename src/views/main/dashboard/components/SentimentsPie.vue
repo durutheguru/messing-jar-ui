@@ -1,5 +1,5 @@
 <template>
-    <v-card class="p-2">
+    <v-card theme="dark" class="p-2">
         <div class="font-weight text-lg ml-2 my-2">
             Sentiments
         </div>

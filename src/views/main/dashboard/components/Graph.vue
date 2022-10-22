@@ -21,14 +21,14 @@ export default defineComponent({
     data() {
         return {
             testData: {
-                labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
+                labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre', 'Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
                 datasets: [
                     {
-                        data: [30, 40, 60, 70, 5],
+                        data: [30, 40, 60, 70, 5, 30, 40, 60, 70, 5],
                         backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
                     },
                     {
-                        data: [4, 90, 1, 12, 5],
+                        data: [4, 50, 1, 12, 5, 1, 12, 5, 30, 40],
                         backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
                     }
                 ],
