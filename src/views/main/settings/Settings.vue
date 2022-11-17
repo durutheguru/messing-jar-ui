@@ -8,21 +8,39 @@
         <div class="md:grow col-span-6">
             <v-form ref="form" v-model="valid" class="pa-4 pt-6">
                 <div class="flex flex-row">
-                    <v-text-field class="grow" v-model="firstName" filled color="deep-purple" label="First Name">
+                    <v-text-field 
+                        class="grow" 
+                        v-model="firstName" 
+                        filled 
+                        color="deep-purple" 
+                        label="First Name"
+                        :rules="validation.firstName">
                     </v-text-field>
-                    <v-text-field class="grow" v-model="lastName" filled color="deep-purple" label="Last Name">
+                    <v-text-field 
+                        class="grow" 
+                        v-model="lastName" 
+                        filled 
+                        color="deep-purple" 
+                        label="Last Name"
+                        :rules="validation.lastName">
                     </v-text-field>
                 </div>
-                <v-text-field v-model="email" :rules="emailRules" filled color="deep-purple" label="Email Address"
-                    type="email"></v-text-field>
-                <v-switch color="indigo" v-model="emailSwitch" hide-details inset 
+                <v-text-field 
+                    v-model="email" 
+                    :rules="validation.emailRules" 
+                    filled 
+                    color="deep-purple" 
+                    label="Email Address"
+                    type="email">
+                </v-text-field>
+                <v-switch color="indigo" v-model="emailSwitch" hide-details inset
                     :label="`Trigger emails from Messages`"></v-switch>
             </v-form>
         </div>
     </div>
     <div class="mt-3 md:flex md:flex-row grid grid-cols-6">
         <v-btn size="x-large" color="error" class="mr-2 col-span-3">Reset</v-btn>
-        <v-btn size="x-large" color="info" class="col-span-3">Save Changes</v-btn>
+        <v-btn size="x-large" color="info" class="col-span-3" :disabled="!valid">Save Changes</v-btn>
     </div>
 </template>
 
@@ -36,14 +54,29 @@ export default defineComponent({
             firstName: '',
             lastName: '',
             email: '',
-            emailRules: [
-                (v: any) => !!v || 'E-mail is required',
-                (v: any) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-            ],
-            emailSwitch: false
+            emailSwitch: false,
+
+            validation: {
+                firstName: [
+                    (v: any) => !!v && v.length > 1 || 'First Name is required',
+                    (v: any) => !!v && v.length < 100 || 'First Name should not exceed 100'
+                ],
+
+                lastName: [
+                    (v: any) => !!v && v.length > 1 || 'Last Name is required',
+                    (v: any) => !!v && v.length < 100 || 'Last Name should not exceed 100'
+                ],
+
+                emailRules: [
+                    (v: any) => !!v || 'E-mail is required',
+                    (v: any) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ],
+            },
         };
     }
 });
 </script>
 
-<style src="@/assets/ext.css" scoped></style>
+<style src="@/assets/ext.css" scoped>
+
+</style>
