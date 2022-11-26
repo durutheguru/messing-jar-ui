@@ -12,6 +12,8 @@ export default class Constants {
 
   public static fileUploadEvent: string = "file-upload";
 
+  public static fileUploadErrorEvent: string = "file-upload-error";
+
   public static newStoreDataEvent: string = "new-store-data";
 
   public static defaultEventTriggerTimeout: number = 400;

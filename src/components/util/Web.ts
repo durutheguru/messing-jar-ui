@@ -138,6 +138,38 @@ export default class Web {
     );
   }
 
+
+  public static patch(
+    url: string,
+    data: any,
+    successCallback: APISuccessCallback,
+    errorCallback?: APIErrorCallback,
+    headers?: any
+  ) {
+    Web.patchAbsolute(
+      Web.BASE_URL + url,
+      data,
+      successCallback,
+      errorCallback,
+      headers
+    );
+  }
+
+
+  public static patchAbsolute(
+    url: string,
+    data: any,
+    successCallback: APISuccessCallback,
+    errorCallback?: APIErrorCallback,
+    headers?: any
+  ) {
+    axios
+      .patch(url, data, headers)
+      .then(successCallback)
+      .catch(errorCallback);
+  }
+
+
   public static navigate(url: string) {
     window.location.href = url;
   }

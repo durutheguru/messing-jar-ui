@@ -44,4 +44,13 @@ nav {
 }
 
 
+.settings-profile-photo-upload-hover {
+    background: rgba(70, 70, 70, 0.8);
+}
 
+
+.v-hover--reveal {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
