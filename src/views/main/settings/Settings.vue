@@ -135,8 +135,10 @@ export default defineComponent({
         let self = this;
         Event.emitter.on(Constants.fileUploadEvent, (data: any) => {
             Log.info(`File Upload Event was received. ${data}`);
-            self.profilePhotoRef = data;
+            self.profilePhotoRef = data.reference;
+            self.profilePhotoUrl = data.publicUrl;
         });
+
         SettingsService.fetchUserSettings(
             (response) => {
                 Log.info(`Fetched User Settings: ${JSON.stringify(response.data)}`);
@@ -200,8 +202,8 @@ export default defineComponent({
         },
 
         
+    },
 
-    }
 });
 </script>
 
