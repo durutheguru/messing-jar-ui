@@ -3,6 +3,7 @@ import HomeView from '@/views/main/HomeView.vue'
 import LoginView from '@/views/login/LoginView.vue';
 import SignUpView from '@/views/signup/SignUpView.vue';
 import guard from './guard';
+import notificationListener from './notificationListener';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,5 +78,6 @@ const router = createRouter({
 })
 
 router.beforeEach(guard);
+router.afterEach(notificationListener);
 
 export default router;

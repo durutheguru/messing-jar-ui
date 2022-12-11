@@ -14,10 +14,7 @@ axios.interceptors.request.use((config: AxiosRequestConfig): any => {
   );
 
   if (
-    matchingExcludePaths.length === 0 &&
-    import.meta.env.VITE_BASE_URL &&
-    config.url?.startsWith(import.meta.env.VITE_BASE_URL)
-    && config.headers
+    matchingExcludePaths.length === 0 && config.headers
   ) {
     config.headers.Authorization = "Bearer " + authStore.getApiToken;
   }
@@ -90,6 +87,12 @@ export default class Web {
     Web.getAbsolute(Web.BASE_URL + url, successCallback, errorCallback);
   }
 
+  public static getAsync(
+    url: string,
+  ) {
+    return Web.getAbsoluteAsync(Web.BASE_URL + url);
+  }
+
   public static getAbsolute(
     url: string,
     successCallback: APISuccessCallback,
@@ -99,6 +102,10 @@ export default class Web {
       .get(url)
       .then(successCallback)
       .catch(errorCallback);
+  }
+
+  public static getAbsoluteAsync(url: string) {
+    return axios.get(url);
   }
 
   public static post(

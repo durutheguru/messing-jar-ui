@@ -3,7 +3,6 @@ import UserAuthContext from "./UserAuthContext";
 // import "@/interceptors/auth/AuthCheckInterceptor";
 import { Log } from "@/components/util";
 import { defineStore } from 'pinia';
-import pinia from '@/store';
 
 
 const authTokenStore = defineStore('authToken', {

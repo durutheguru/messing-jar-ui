@@ -5,8 +5,10 @@
         style="position:fixed;background:#0c4a6eED;color:white">
 
         <v-list>
-            <v-list-item title="Sandra Adams" prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-                subtitle="sandra_a88@gmailcom"></v-list-item>
+            <v-list-item 
+            :title="fullName" 
+            :prepend-avatar="profilePhotoPublicUrl"
+            :subtitle="email"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
@@ -62,9 +64,13 @@
 </template>
   
 <script lang="ts">
-import { Log, BaseVue } from '@/components/util';
-import LoginService from '@/services/login/LoginService';
+import { Log, BaseVue, Constants } from '@/components/util';
 import { defineComponent } from 'vue';
+import Event from '@/components/core/Event';
+import pinia from '@/store';
+import userDetailsStore from '@/store/modules/userDetails';
+import { mapState } from 'pinia';
+
 
 export default defineComponent({
     name: 'NavDrawer',
@@ -171,8 +177,14 @@ export default defineComponent({
     },
 
     computed: {
+        ...mapState(userDetailsStore, ['firstName', 'lastName', 'email', 'profilePhotoPublicUrl']),
+
         drawerToggle() {
             return this.drawer;
+        },
+
+        fullName() {
+            return `${this.firstName} ${this.lastName}`;
         }
     },
 

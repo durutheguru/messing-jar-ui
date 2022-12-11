@@ -95,7 +95,7 @@ export default defineComponent({
             email: '',
             emailSwitch: false,
             profilePhotoRef: '',
-            profilePhotoUrl: 'https://cdn.vuetifyjs.com/images/john.jpg',
+            profilePhotoUrl: '',
             fileUploader: new FileUploader(
                 "/file__upload",
                 1,
@@ -151,9 +151,7 @@ export default defineComponent({
                 self.profilePhotoUrl = response.data.profilePhotoPublicUrl;
             },
 
-            (error) => {
-
-            }
+            (error) => { }
         );
     },
 
