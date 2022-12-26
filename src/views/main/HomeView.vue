@@ -1,70 +1,12 @@
 <template>
 
   <v-app>
-    <nav-drawer :drawer="drawer" @update:modelValue="setDrawer(!drawer)" @logout="logout()" />
+    
+    <nav-drawer 
+      :drawer="drawer" 
+      @logout="logout()" />
 
-    <v-app-bar app>
-
-      <template v-slot:prepend>
-        <v-app-bar-nav-icon @click.stop="drawer=!drawer"></v-app-bar-nav-icon>
-      </template>
-
-      <v-app-bar-title>MessingJar</v-app-bar-title>
-
-      <v-btn v-if="search==null" @click="search=''" icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-menu v-if="search!=null" open-on-focus transition="slide-y-transition">
-        <template v-slot:activator="{ props }">
-
-          <v-text-field v-bind="props" v-show="search!=null" v-model="search" density="compact" variant="underlined"
-            placeholder="Search" append-inner-icon="mdi-close" single-line hide-details
-            @click:append-inner="cancelSearch"></v-text-field>
-
-        </template>
-
-        <v-card min-width="300" class="pb-5">
-          <v-list>
-            <v-list-subheader>Recent Search...</v-list-subheader>
-            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-              subtitle="Founder of Vuetify">
-              <template v-slot:append>
-                <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart" @click="fav = !fav"></v-btn>
-              </template>
-            </v-list-item>
-          </v-list>
-
-          <v-divider></v-divider>
-
-
-          <v-list>
-            <v-list-subheader>Results...</v-list-subheader>
-            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-              subtitle="Founder of Vuetify">
-              <template v-slot:append>
-                <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart" @click="fav = !fav"></v-btn>
-              </template>
-            </v-list-item>
-            <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-              subtitle="Founder of Vuetify">
-              <template v-slot:append>
-                <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart" @click="fav = !fav"></v-btn>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-menu>
-
-
-
-      <template v-slot:append>
-        <v-btn icon="mdi-dots-vertical"></v-btn>
-      </template>
-
-
-
-    </v-app-bar>
+    <app-header :drawer="drawer" />
 
     <v-main>
 
@@ -77,11 +19,14 @@
     </v-main>
 
   </v-app>
+
 </template>
 
 <script lang="ts">
+import Event from '@/components/core/Event';
+import AppHeader from '../main/header/AppHeader.vue';
 import NavDrawer from '@/components/nav/NavDrawer.vue';
-import { Log } from '@/components/util';
+import { Constants, Log } from '@/components/util';
 import LoginService from '@/services/login/LoginService';
 import { defineComponent } from 'vue';
 
@@ -102,6 +47,7 @@ export default defineComponent({
 
   components: {
     NavDrawer,
+    AppHeader,
   },
 
   data(): HomeVueData {
@@ -209,7 +155,13 @@ export default defineComponent({
   },
 
   mounted() {
+    let self = this;
     Log.info("Home View Log...");
+    Event.emitter.on(
+      Constants.sidebarToggleEvent, function(update: boolean) {
+        self.drawer = update;
+      },
+    );
   },
 
   methods: {
@@ -218,9 +170,9 @@ export default defineComponent({
       LoginService.logout();
     },
 
-    setDrawer(drawer: boolean) {
-      this.drawer = drawer;
-    },
+    // setDrawer(drawer: boolean) {
+    //   this.drawer = drawer;
+    // },
 
     cancelSearch() {
       this.search = null;

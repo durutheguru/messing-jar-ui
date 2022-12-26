@@ -90,4 +90,13 @@ export default class Constants {
     CAN_CREATE_LOTTERY: "CAN_CREATE_LOTTERY",
     CAN_CREATE_CAMPAIGN: "CAN_CREATE_CAMPAIGN",
   };
+
+  public static Event: any = {
+
+    
+
+  };
+
+
+
 }

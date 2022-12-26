@@ -7,7 +7,7 @@ const sseTokenStore = defineStore('sseToken', {
     state: () => {
       return {
         token: "",
-        expiresOn: ""
+        expiresOn: "",
       };
     },
   

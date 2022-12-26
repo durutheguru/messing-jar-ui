@@ -17,7 +17,7 @@ export default defineComponent({
 
     components: {
         ChatFooter,
-        MessageTimeline
+        MessageTimeline,
     },
 })
 </script>

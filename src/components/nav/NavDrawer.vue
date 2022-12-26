@@ -66,8 +66,6 @@
 <script lang="ts">
 import { Log, BaseVue, Constants } from '@/components/util';
 import { defineComponent } from 'vue';
-import Event from '@/components/core/Event';
-import pinia from '@/store';
 import userDetailsStore from '@/store/modules/userDetails';
 import { mapState } from 'pinia';
 
