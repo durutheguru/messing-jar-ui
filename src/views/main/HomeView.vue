@@ -1,9 +1,10 @@
 <template>
 
   <v-app>
-    
+
     <nav-drawer 
       :drawer="drawer" 
+      @update:modelValue="setDrawer($event)"
       @logout="logout()" />
 
     <app-header :drawer="drawer" />
@@ -170,9 +171,9 @@ export default defineComponent({
       LoginService.logout();
     },
 
-    // setDrawer(drawer: boolean) {
-    //   this.drawer = drawer;
-    // },
+    setDrawer(drawer: boolean) {
+      this.drawer = drawer;
+    },
 
     cancelSearch() {
       this.search = null;

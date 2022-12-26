@@ -1,7 +1,7 @@
 <template>
 
 
-    <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawerToggle"
+    <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
         style="position:fixed;background:#0c4a6eED;color:white">
 
         <v-list>

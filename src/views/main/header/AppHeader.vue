@@ -16,30 +16,28 @@
     <v-menu v-if="search != null" open-on-focus transition="slide-y-transition">
       <template v-slot:activator="{ props }">
 
-        <v-text-field v-bind="props" v-show="search != null" v-model="search" density="compact" variant="underlined"
-          placeholder="Search" append-inner-icon="mdi-close" single-line hide-details
-          @click:append-inner="cancelSearch"></v-text-field>
+        <v-text-field v-bind="props" 
+          v-show="search != null" 
+          v-model="search" 
+          density="compact" 
+          variant="underlined"
+          placeholder="Search" 
+          append-inner-icon="mdi-close" single-line hide-details
+          @click:append-inner="cancelSearch"
+          @input="handleSearch"></v-text-field>
 
       </template>
 
       <v-card min-width="300" class="pb-5">
         <v-list>
-          <v-list-subheader>Recent Search...</v-list-subheader>
-          <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-            subtitle="Founder of Vuetify">
-          </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-
-        <v-list>
           <v-list-subheader>Results...</v-list-subheader>
-          <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-            subtitle="Founder of Vuetify">
-          </v-list-item>
-          <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-            subtitle="Founder of Vuetify">
+          <v-list-item 
+            v-for="result in searchResults" 
+            :key="result.username" 
+            :prepend-avatar="result.profilePhotoUrl" 
+            :title="`${result.firstName} ${result.lastName}`"
+            :subtitle="result.email"
+            :href="`/chat/${result.username}`">
           </v-list-item>
         </v-list>
       </v-card>
@@ -57,12 +55,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Event from '@/components/core/Event';
-import { Constants } from "@/components/util";
+import { Constants, Log, Util } from "@/components/util";
+import SearchService from './service/SearchService';
+
 
 declare interface AppHeaderData {
   menu: Boolean,
   drawer: Boolean | null,
-  search: String | null,
+  search: string | null,
+  searchResults: Array<any>
 };
 
 export default defineComponent({
@@ -75,6 +76,8 @@ export default defineComponent({
       drawer: null,
 
       search: null,
+
+      searchResults: [],
     };
   },
 
@@ -90,6 +93,33 @@ export default defineComponent({
 
     cancelSearch() {
       this.search = null;
+    },
+
+    handleSearch() {
+      let self = this;
+
+      Util.throttle({
+        key: 'global-search',
+        run: () => {
+          if (self.search == null || !Util.isValidString(self.search)) {
+            return;
+          }
+
+          SearchService.search(
+            self.search, 
+
+            (response) => {
+              Log.info(`Search Response received: ${JSON.stringify(response)}`);
+              self.searchResults = response.data.userSearchResults;
+            },
+
+            (error) => {
+              Log.error(`Search Error occurred: ${Util.extractError(error)}`);
+            },
+          );
+        },
+        timeout: 300
+      });
     }
     
   }
