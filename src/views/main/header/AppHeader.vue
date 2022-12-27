@@ -4,7 +4,7 @@
   <v-app-bar app>
 
     <template v-slot:prepend>
-      <v-app-bar-nav-icon @click.stop="setDrawer(!drawer)"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="toggleDrawer()"></v-app-bar-nav-icon>
     </template>
 
     <v-app-bar-title>MessingJar</v-app-bar-title>
@@ -61,7 +61,6 @@ import SearchService from './service/SearchService';
 
 declare interface AppHeaderData {
   menu: Boolean,
-  drawer: Boolean | null,
   search: string | null,
   searchResults: Array<any>
 };
@@ -73,8 +72,6 @@ export default defineComponent({
     return {
       menu: true,
 
-      drawer: null,
-
       search: null,
 
       searchResults: [],
@@ -83,12 +80,8 @@ export default defineComponent({
 
   methods: {
 
-    setDrawer(val: boolean) {
-      this.drawer = val;
-      Event.EventTrigger.trigger(
-        Constants.sidebarToggleEvent,
-        this.drawer
-      );
+    toggleDrawer() {
+      Event.EventTrigger.trigger(Constants.sidebarToggleEvent);
     },
 
     cancelSearch() {

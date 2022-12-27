@@ -1,7 +1,7 @@
 <template>
 
 
-    <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawer"
+    <v-navigation-drawer expand-on-hover rail elevation="10" v-model="drawerToggle"
         style="position:fixed;background:#0c4a6eED;color:white">
 
         <v-list>
@@ -47,7 +47,6 @@
 
         <v-divider></v-divider>
 
-
         <v-list>
             <v-list-item rounded="xl" prepend-icon="mdi-home" title="Home" @click="goHome()">
             </v-list-item>
@@ -68,14 +67,26 @@ import { Log, BaseVue, Constants } from '@/components/util';
 import { defineComponent } from 'vue';
 import userDetailsStore from '@/store/modules/userDetails';
 import { mapState } from 'pinia';
+import Event from '@/components/core/Event';
+
+
+declare interface NavDrawerData {
+
+    chats: Array<any>,
+
+    groups: Array<any>,
+
+    mainActionItems: Array<any>,
+
+    drawerToggle: boolean | null,
+
+};
 
 
 export default defineComponent({
     name: 'NavDrawer',
 
-    props: ['drawer'],
-
-    data() {
+    data(): NavDrawerData {
         return {
             chats: [
                 {
@@ -170,24 +181,28 @@ export default defineComponent({
                     },
                     action: 'doLogout'
                 },
-            ]
+            ],
+
+            drawerToggle: null,
         };
     },
 
     computed: {
         ...mapState(userDetailsStore, ['firstName', 'lastName', 'email', 'profilePhotoPublicUrl']),
 
-        drawerToggle() {
-            return this.drawer;
-        },
-
-        fullName() {
+        fullName(): string {
             return `${this.firstName} ${this.lastName}`;
         }
     },
 
     mounted() {
         Log.info("Nav Drawer Mounted...");
+        let self = this;
+        Event.emitter.on(
+            Constants.sidebarToggleEvent, function() {
+                self.drawerToggle = !self.drawerToggle;
+            },
+        );
     },
 
     methods: {

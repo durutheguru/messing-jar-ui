@@ -2,10 +2,12 @@
 
   <v-app>
 
-    <nav-drawer 
+    <!-- <nav-drawer 
       :drawer="drawer" 
       @update:modelValue="setDrawer($event)"
-      @logout="logout()" />
+      @logout="logout()" /> -->
+
+      <nav-drawer @logout="logout()" />
 
     <app-header :drawer="drawer" />
 
