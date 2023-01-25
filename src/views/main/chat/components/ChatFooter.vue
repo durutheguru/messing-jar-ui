@@ -32,14 +32,19 @@
                 </v-btn>
             </div>
             <div class="grow max-height">
-                <v-textarea class="max-height mt-1" hide-details placeholder="Message..." no-resize rows="1" >
+                <v-textarea 
+                    class="max-height mt-1" 
+                    hide-details 
+                    placeholder="Message..." 
+                    no-resize rows="1"
+                    v-model="message" >
                 </v-textarea>
             </div>
             <div class="flex-none">
                 <div class="fill-height max-height">
                     <div class="lg:block md:hidden sm:hidden hidden max-height">
                         <v-btn class="max-height" block :loading="false" :disabled="false" color="info"
-                            append-icon="mdi-send">
+                            append-icon="mdi-send" @click="sendMessage()">
                             Send
                         </v-btn>
                     </div>
@@ -64,6 +69,19 @@
     export default defineComponent({
         name: 'ChatFooter',
 
+        data() {
+            return {
+                message: '',
+            }
+        },
+
+        methods: {
+
+            sendMessage() {
+                this.$emit('send-message', this.message);
+            }
+
+        },
     });
 
 </script>

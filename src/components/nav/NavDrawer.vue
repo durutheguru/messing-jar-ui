@@ -80,7 +80,7 @@ declare interface NavDrawerData {
 
     drawerToggle: boolean | null,
 
-};
+}
 
 
 export default defineComponent({

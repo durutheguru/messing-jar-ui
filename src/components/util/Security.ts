@@ -1,5 +1,5 @@
 
-import authTokenStore from '@/store/modules/authToken/authToken';
+import authTokenStore from '@/store/modules/authToken';
 
 
 export default class Security {

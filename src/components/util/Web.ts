@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import authTokenStore from "@/store/modules/authToken/authToken";
+import authTokenStore from "@/store/modules/authToken";
 import { Constants, Log } from ".";
 import LoginService from "@/services/login/LoginService";
 

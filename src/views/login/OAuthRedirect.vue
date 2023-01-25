@@ -7,7 +7,7 @@
 import { defineComponent } from 'vue';
 import { Log, Util, Web } from '@/components/util/';
 import LoginService from '@/services/login/LoginService';
-import authTokenStore from "@/store/modules/authToken/authToken";
+import authTokenStore from "@/store/modules/authToken";
 
 
 

@@ -3,7 +3,7 @@ import HomeView from '@/views/main/HomeView.vue'
 import LoginView from '@/views/login/LoginView.vue';
 import SignUpView from '@/views/signup/SignUpView.vue';
 import guard from './guard';
-import notificationListener from './notificationListener';
+import notificationListener from './notificationListenerWS';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -1,261 +1,49 @@
-import { Web, Log, Util, Constants } from '@/components/util';
 
-import ApiResource from '@/components/core/ApiResource';
-import PageDataModel from '@/components/core/PageDataModel';
-import PullStreamDataResponseResolver from '@/components/core/resolver/PullStreamDataResponseResolver';
-import { EventBus } from '@/components/core/Event';
-
-import store from '@/store';
+import { Log, Util } from '@/components/util';
+import { defineStore } from 'pinia';
+import type { Notification } from './Notification'
 
 
+const notificationsStore = defineStore('notifications', {
+    state: () => {
 
-const getDefaultState = () => {
-    return {
+      return {
+        notifications: []
+      };
+      
+    },
+  
+    getters: {
 
-        notifications: PageDataModel.newModel('notifications'),
-    
-    };
-};
-
-
-const resolver = new PullStreamDataResponseResolver();
-
-
-const state = getDefaultState();
-
-
-const getters = {
-
-
-    getState(context: any) {
+      getNotifications(context: any) {
         return context.notifications;
+      },
+    
     },
+    
+    actions: {
+      addNotification(notification: Notification) {
+        Log.info(`Adding Notification to store: ${notification}`);
+        this.notifications.push(notification);
+        this.notifications = this.notifications.slice(0, 10); // keep last 10 notifications
+      },
 
-    getNotifications(context: any) {
-        return context.notifications.list;
+      clearNotifications() {
+        Log.info(`Clearing Notifications in store`);
+        this.notifications = [];
+      },
+
+      viewedNotification(notification: Notification) {
+        Log.info(`Marking Notification as viewed in store: ${notification}`);
+        notification.viewed = true;
+      },
+
     },
-
-    getNotificationsError(context: any) {
-        return context.notifications.error;
+  
+    persist: {
+      storage: localStorage
     },
-
-    getNotificationsLoading(context: any) {
-        return context.notifications.loading;
-    },
-
-    getMinFetchedTimeStamp(context: any) {
-        return context.notifications.pageData.minTimeStamp;
-    },
-
-    getMaxFetchedTimeStamp(context: any) {
-        return context.notifications.pageData.maxTimeStamp;
-    },
-
-};
-
-
-const mutations = {
-
-
-    resetState(context: any) {
-        Object.assign(context, getDefaultState());
-    },
-
-
-    appendNotifications(context: any, notificationsUpdate: any) {
-        Log.info(`Appending Notifications Page Data: ${JSON.stringify(notificationsUpdate)}`);
-
-        PageDataModel.appendModelData(
-            context.notifications, 
-
-            notificationsUpdate.apiResponse,
-
-            notificationsUpdate.isSearchResult,
-
-            {
-                getMinFetchedTimeStamp: getters.getMinFetchedTimeStamp(context),
-                getMaxFetchedTimeStamp: getters.getMaxFetchedTimeStamp(context),
-            },
-
-            resolver,
-        );
-
-        EventBus.$emit(Constants.newStoreDataEvent);
-    },
-
-
-    prependNotifications(context: any, notificationsUpdate: any) {
-        Log.info(`Prepending Notifications Page Data: ${JSON.stringify(notificationsUpdate)}`);
-
-        PageDataModel.prependModelData(
-            context.notifications, 
-
-            notificationsUpdate.apiResponse,
-
-            notificationsUpdate.isSearchResult,
-
-            {
-                getMinFetchedTimeStamp: getters.getMinFetchedTimeStamp(context),
-                getMaxFetchedTimeStamp: getters.getMaxFetchedTimeStamp(context),
-            },
-
-            resolver
-        );
-
-        EventBus.$emit(Constants.newStoreDataEvent);
-    },
-
-
-    setNotificationsLoading(context: any, loading: boolean) {
-        context.notifications.loading = loading;
-    },
-
-
-    clearNotificationsError(context: any) {
-        context.notifications.error = '';
-    },
-
-
-    setNotificationsError(context: any, notificationsError: any) {
-        Log.info(`Assigning Notifications Error response: ${JSON.stringify(notificationsError)}`);
-        context.notifications.error = Util.extractError(notificationsError.apiError);
-    },
-
-
-};
-
-
-const actions = {
-
-    loadNotifications(context: any) {
-        context.commit('clearNotificationsError');
-        context.commit('setNotificationsLoading', true);
-
-        Web.get(
-            '/api/v1/user_notifications?userId=' + store.getters['authToken/username'],
-
-            (response: any) => {
-                context.commit('resetState');
-        
-                context.commit('setNotificationsLoading', false);
-                context.commit(
-                    'appendNotifications', 
-                    {
-                        apiResponse: response, 
-                        isSearchResult: false,
-                    },
-                );
-            },
-
-            (error: any) => {
-                context.commit('setNotificationsLoading', false);
-                context.commit(
-                    'setNotificationsError',
-                    {
-                        apiError: error,
-                    },
-                );
-            }
-        );
-    },
-
-
-    prependNotifications(context: any) {
-        Util.throttle(
-            {
-                key: 'notifications_list_prepend',
-
-                run: () => {
-                    context.commit('clearNotificationsError');
-                    context.commit('setNotificationsLoading', true);
-
-                    Web.get(
-                        PageDataModel.getPrependUrl(
-                            '/api/v1/user_notifications?userId=' + store.getters['authToken/username'], 
-                            context.getters.getMaxFetchedTimeStamp
-                        ),
-                        
-                        (response: any) => {
-                            context.commit('setNotificationsLoading', false);
-                            context.commit(
-                                'prependNotifications', 
-                                {
-                                    apiResponse: response, 
-                                    isSearchResult: false,
-                                },
-                            );
-                        },
-            
-                        (error: any) => {
-                            context.commit('setNotificationsLoading', false);
-                            context.commit(
-                                'setNotificationsError',
-                                {
-                                    apiError: error,
-                                },
-                            );
-                        },
-                    );
-                },
-
-                time: 1000,
-            },
-        );
-    },
-
-
-    appendNotifications(context: any) {
-        Util.throttle(
-            {
-                key: 'notifications_list_append',
-
-                run: () => {
-                    context.commit('clearNotificationsError');
-                    context.commit('setNotificationsLoading', true);
-
-                    Web.get(
-                        PageDataModel.getAppendUrl(
-                            '/api/v1/user_notifications?userId=' + store.getters['authToken/username'], 
-                            context.getters.getMinFetchedTimeStamp
-                        ),
-            
-                        (response: any) => {
-                            context.commit('setNotificationsLoading', false);
-                            context.commit(
-                                'appendNotifications', 
-                                {
-                                    apiResponse: response, 
-                                    isSearchResult: false,
-                                },
-                            );
-                        },
-            
-                        (error: any) => {
-                            context.commit('setNotificationsLoading', false);
-                            context.commit(
-                                'setNotificationsError',
-                                {
-                                    apiError: error,
-                                },
-                            );
-                        },
-                    );
-                },
-
-                time: 1000,
-            },
-        );
-    },
-
-};
-
-
-export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations,
-};
-
-
+  });
+  
+  export default notificationsStore;
+  

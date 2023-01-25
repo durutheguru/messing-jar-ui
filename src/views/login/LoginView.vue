@@ -104,7 +104,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Log, Util, Web } from '@/components/util/';
-import authTokenStore from "@/store/modules/authToken/authToken";
+import authTokenStore from "@/store/modules/authToken";
 import { mapState } from 'pinia';
 
 

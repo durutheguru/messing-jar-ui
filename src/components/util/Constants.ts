@@ -1,8 +1,9 @@
 export default class Constants {
   public static API_BASE: string = "/api/v1";
 
-  // Event Related Constants
   public static currencyFormat = "0,0.00";
+
+  // Event Related Constants
 
   public static dialogClosedEvent: string = "close-dialog";
 
@@ -25,6 +26,14 @@ export default class Constants {
   public static nextPageNavigationEvent: string = "next-page-nav";
 
   public static sidebarToggleEvent: string = "side-bar-toggle";
+
+  public static notificationEvent = "notification";
+
+  public static webSocketInitializedEvent = "web-socket-initialized";
+
+  public static webSocketOutgoingMessage = "web-socket-outgoing-message";
+
+  // End Event Related Constants
 
   public static defaultCardBackgroundUrl: string =
     "https://socialotto.s3.ca-central-1.amazonaws.com/uploads/default-img-md-bg.jpeg";

@@ -5,16 +5,22 @@ import pinia from '@/store';
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import './assets/tailwind.css';
+import WebSocketManager from "@/services/ws/WebSocketManager.vue";
+import Mount from './components/util/Mount';
 
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
-
 loadFonts()
 
-createApp(App)
+Mount.component(WebSocketManager);
+
+const app = createApp(App);
+app
   .use(router)
   .use(vuetify)
   .use(pinia)
-  .mount('#app')
+  .mount('#app');
+
+

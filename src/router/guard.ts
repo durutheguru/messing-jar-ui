@@ -1,4 +1,4 @@
-import authTokenStore from "@/store/modules/authToken/authToken";
+import authTokenStore from "@/store/modules/authToken";
 import { Log, Web, Util } from "@/components/util";
 
 
@@ -13,7 +13,7 @@ const authRoute = async (to: any, next: any) => {
     if (!authenticated) {
       navigateLogin(to, next);
     } else {
-      let userActive = store.isUserActive;
+      const userActive = store.isUserActive;
       Log.info(`User Active: ${userActive}`);
       if (userActive === true) {
         Log.info(`Navigating to Path: ${to.path}`);

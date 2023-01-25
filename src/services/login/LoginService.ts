@@ -2,7 +2,7 @@
 import { Log, Web } from '@/components/util/';
 import type { APISuccessCallback, APIErrorCallback } from '@/components/util/Web';
 import pinia from '@/store';
-import authTokenStore from "@/store/modules/authToken/authToken";
+import authTokenStore from "@/store/modules/authToken";
 import userDetailsStore from '@/store/modules/userDetails';
 import SettingsService from '@/views/main/settings/service/SettingsService';
 
@@ -52,7 +52,7 @@ export default class LoginService {
 
 
     public static handleSuccessfulLogin(response: any, navigateHome?: boolean) {
-        let self = this;
+        const self = this;
         const _authTokenStore = authTokenStore(pinia);
         const _userDetailsStore = userDetailsStore(pinia);
 
