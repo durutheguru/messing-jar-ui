@@ -79,7 +79,12 @@
 
             sendMessage() {
                 this.$emit('send-message', this.message);
-            }
+                this.clearMessage();
+            },
+
+            clearMessage() {
+                this.message = '';
+            },
 
         },
     });

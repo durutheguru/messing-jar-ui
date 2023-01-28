@@ -1,3 +1,4 @@
+// eslint-disable-next-line vue/multi-word-component-names
 <template>
     <div class="md:flex md:flex-row md:m-8 grid grid-cols-6">
         <div class="md:flex-none col-span-6 text-center">

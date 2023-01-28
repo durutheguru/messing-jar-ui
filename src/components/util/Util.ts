@@ -158,6 +158,13 @@ export default class Util {
       : msg;
   }
 
+  public static extractWSMessage(event: any): any {
+    let message = event.message.substring(1, event.message.length - 1);
+            
+    message = message.replace(/\\/g, '');
+    return message = JSON.parse(message);
+  }
+
   public static quantity(num: number, item: string, fullString?: boolean) {
     if (num < 0) {
       return item;

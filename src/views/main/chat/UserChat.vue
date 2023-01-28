@@ -1,9 +1,8 @@
 <template>
 
-    <message-timeline />
+    <message-timeline :user="username" :history="messageHistory" />
 
-    <chat-footer 
-        @send-message="sendMessage" />
+    <chat-footer @send-message="sendMessage" />
 
 </template>
 
@@ -11,12 +10,18 @@
 import { defineComponent, inject } from 'vue';
 import MessageTimeline from './components/MessageTimeline.vue';
 import ChatFooter from './components/ChatFooter.vue';
-import { Constants, Log } from '@/components/util';
+import { Constants, Log, Util } from '@/components/util';
 import { EventTrigger } from '@/components/core/Event';
 import { mapState } from 'pinia';
 import authTokenStore from '@/store/modules/authToken';
+import Event from "@/components/core/Event";
 
 
+export interface UserChatData {
+    message: string;
+    messageHistory: any[];
+    otherUser: string;
+}
 
 
 export default defineComponent({
@@ -27,9 +32,11 @@ export default defineComponent({
         MessageTimeline,
     },
 
-    data() {
+    data(): UserChatData {
         return {
+            otherUser: '',
             message: '',
+            messageHistory: [],
         }
     },
 
@@ -39,15 +46,24 @@ export default defineComponent({
 
     mounted() {
         Log.info('UserChat mounted');
+        this.otherUser = this.$route.params.username as string
         EventTrigger.trigger(
             Constants.webSocketOutgoingMessage, 
             {
                 type: "INITIALIZE_CHAT",
                 payload: JSON.stringify(
                     {
-                        username: this.$route.params.username,
+                        username: this.otherUser,
                     }
                 )
+            }
+        );
+
+        Event.emitter.on(
+            Constants.webSocketNewChatMessage,
+            (event: any) => {
+                Log.info(`WebSocket Chat Message: ${JSON.stringify(event)}`);
+                this.handleIncomingChatEvent(event);
             }
         );
     },
@@ -62,7 +78,7 @@ export default defineComponent({
                     type: "CHAT_MESSAGE",
                     payload: JSON.stringify(
                         {
-                            to: this.$route.params.username,
+                            to: this.otherUser,
                             message,
                         }
                     )
@@ -70,7 +86,18 @@ export default defineComponent({
             );
 
             this.message = '';
-        }
+        },
+
+        handleIncomingChatEvent(event: any) {
+            Log.info('Handling incoming chat message');
+            var message = Util.extractWSMessage(event);
+
+            Log.info(`Final Message: ${JSON.stringify(message)}`);
+            if ([message.from, message.to].includes(this.otherUser)) {
+                Log.info(`New Message with User ${this.otherUser}`)
+                this.messageHistory.push(message);
+            }
+        },
 
     }
 })

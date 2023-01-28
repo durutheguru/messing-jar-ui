@@ -14,7 +14,12 @@ function attachEventSourceHandlers(ws: WebSocket) {
         try {
             Log.info(`Message received. Message: ${JSON.stringify(message)}`);
             const item = JSON.parse(message.data);
-            EventTrigger.trigger(item.type, message.data);
+            
+            if (Util.isValidString(item)) {
+                return;
+            }
+
+            EventTrigger.trigger(item.type, item);
         } catch (ex) {
             Log.warn(`Message is not JSON or Binary. Treating as text: ${message.data}`)
         }

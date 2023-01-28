@@ -33,6 +33,8 @@ export default class Constants {
 
   public static webSocketOutgoingMessage = "web-socket-outgoing-message";
 
+  public static webSocketNewChatMessage = "new-chat-message";
+
   // End Event Related Constants
 
   public static defaultCardBackgroundUrl: string =
