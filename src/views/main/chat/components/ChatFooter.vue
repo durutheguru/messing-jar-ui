@@ -49,7 +49,7 @@
                         </v-btn>
                     </div>
                     <div class="md:block lg:hidden xl:hidden block">
-                        <v-btn block :loading="false" :disabled="false" color="info"
+                        <v-btn block :loading="false" :disabled="false" @click="sendMessage()" color="info"
                             icon>
                             <v-tooltip activator="parent" location="top">Send</v-tooltip>
                             <v-icon>mdi-send</v-icon>

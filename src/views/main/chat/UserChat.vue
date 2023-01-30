@@ -1,6 +1,10 @@
 <template>
 
-    <message-timeline :user="username" :history="messageHistory" />
+    <message-timeline 
+        :user="username" 
+        :history="messageHistory"
+        :my-details="myDetails"
+        :other-user-details="otherUserDetails" />
 
     <chat-footer @send-message="sendMessage" />
 
@@ -21,6 +25,8 @@ export interface UserChatData {
     message: string;
     messageHistory: any[];
     otherUser: string;
+    myDetails: any;
+    otherUserDetails: any;
 }
 
 
@@ -37,6 +43,8 @@ export default defineComponent({
             otherUser: '',
             message: '',
             messageHistory: [],
+            myDetails: {},
+            otherUserDetails: {},
         }
     },
 
@@ -64,6 +72,14 @@ export default defineComponent({
             (event: any) => {
                 Log.info(`WebSocket Chat Message: ${JSON.stringify(event)}`);
                 this.handleIncomingChatEvent(event);
+            }
+        );
+
+        Event.emitter.on(
+            Constants.webSocketChatHistory,
+            (event: any) => {
+                Log.info(`WebSocket Chat History: ${JSON.stringify(event)}`);
+                this.handleIncomingChatHistory(event);
             }
         );
     },
@@ -97,7 +113,29 @@ export default defineComponent({
                 Log.info(`New Message with User ${this.otherUser}`)
                 this.messageHistory.push(message);
             }
+            this.scrollBottom();
         },
+
+        handleIncomingChatHistory(event: any) {
+            Log.info('Handling incoming chat history');
+            var data = JSON.parse(event.message);
+
+            this.myDetails = data.initiatorDetails;
+            this.otherUserDetails = data.receiverDetails;
+
+            this.messageHistory.push(...data.history);
+
+            this.scrollBottom();
+        },
+
+        scrollBottom() {
+            var element = document.getElementById("message-timeline");
+
+            if (element) {
+                Log.info('Scrolling to bottom');
+                element.scrollTop = element.scrollHeight;
+            }
+        }
 
     }
 })
