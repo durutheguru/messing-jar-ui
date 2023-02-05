@@ -30,7 +30,7 @@
 
       <v-card min-width="300" class="pb-5">
         <v-list>
-          <v-list-subheader>Results...</v-list-subheader>
+          <v-list-subheader v-show="searchResults.length">Results...</v-list-subheader>
           <v-list-item 
             v-for="result in searchResults" 
             :key="result.username" 

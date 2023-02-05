@@ -8,12 +8,19 @@ export default class FileService {
 
     public static getFile(fileRefs: String[], successCallback: APISuccessCallback, errorCallback: APIErrorCallback) {
         let params = "";
-        for (let ref in fileRefs) {
+        for (const ref in fileRefs) {
             params += `ref=${ref}&`;
         }
 
         Web.get("/_files?" + params, successCallback, errorCallback);
     }
+
+
+
+    public static downloadFile(fileRef: string) {
+        Web.downloadFile(fileRef);
+    }
+
 
 
 }

@@ -6,7 +6,9 @@
         :my-details="myDetails"
         :other-user-details="otherUserDetails" />
 
-    <chat-footer @send-message="sendMessage" />
+    <chat-footer 
+        @send-text-message="sendTextMessage"
+        @send-file-message="sendFileMessage" />
 
 </template>
 
@@ -86,8 +88,18 @@ export default defineComponent({
 
     methods: {
 
-        sendMessage(message: string) {
-            Log.info('Sending chat message');
+        sendTextMessage(message: string) {
+            this.sendMessage(message, "TEXT");
+        },
+
+
+        sendFileMessage(message: any) {
+            this.sendMessage(message, "FILE");
+        },
+
+
+        sendMessage(message: any, type: String) {
+            Log.info(`Sending ${type} message`);
             EventTrigger.trigger(
                 Constants.webSocketOutgoingMessage, 
                 {
@@ -96,7 +108,8 @@ export default defineComponent({
                         {
                             to: this.otherUser,
                             message,
-                        }
+                            type,
+                        },
                     )
                 }
             );
@@ -129,7 +142,7 @@ export default defineComponent({
         },
 
         scrollBottom() {
-            var element = document.getElementById("message-timeline");
+            var element = document.getElementById("app");
 
             if (element) {
                 Log.info('Scrolling to bottom');

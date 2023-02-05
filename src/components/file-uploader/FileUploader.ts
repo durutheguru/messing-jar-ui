@@ -5,24 +5,47 @@ import Event from '../core/Event';
 import FileWrapper from './FileWrapper';
 
 
+export interface FileUploaderConfig {
+
+    uploadUrl: string;
+    maxFiles: number;
+    maxFileSize: number;
+    allowedExtensions?: RegExp;
+
+}
+
+
 export default class FileUploader {
 
 
     public uploads!: FileWrapper[];
 
+    private uploadUrl: string;
 
+    private maxFiles: number;
+
+    private maxFileSize: number;
+
+    private allowedExtensions?: RegExp;
+
+    private onSuccessCallback?: (data: any) => void;
+
+    private onErrorCallback?: (error: any) => void;
+
+    
     public constructor(
-        private uploadUrl: string,
-        private maxFiles: number,
-        private allowedExtensions: RegExp,
-        private maxFileSize: number,
+        private config: FileUploaderConfig,
     ) {
         this.uploads = [];
+        this.uploadUrl = config.uploadUrl;
+        this.maxFiles = config.maxFiles;
+        this.maxFileSize = config.maxFileSize;
+        this.allowedExtensions = config.allowedExtensions || Constants.defaultFileUploadExtensions;
     }
 
 
     public fileChange(event: any) {
-        let files: FileList = event.target.files;
+        const files: FileList = event.target.files;
         
         for (let i = 0; i < files.length; i++) {
             if (this.uploads.length === this.maxFiles) {
@@ -30,9 +53,9 @@ export default class FileUploader {
                 return;
             }
 
-            let file = files.item(i) as File;
+            const file = files.item(i) as File;
 
-            if (!this.allowedExtensions.test(file.name.toLowerCase())) {
+            if (this.allowedExtensions && !this.allowedExtensions.test(file.name.toLowerCase())) {
                 Log.warn(`Unsupported file format: ${file.name}`);
                 return;
             }
@@ -45,7 +68,7 @@ export default class FileUploader {
             if (!this.containsFile(file)) {
                 Log.info(`Adding File for upload ${file.name}`);
 
-                let fileWrapper = new FileWrapper(file, ApiResource.create());
+                const fileWrapper = new FileWrapper(file, ApiResource.create());
                 this.uploads.push(fileWrapper);
                 this.uploadFile(fileWrapper);
             } else {
@@ -56,12 +79,12 @@ export default class FileUploader {
 
 
     public uploadFile(fileWrapper: FileWrapper) {
-        let resource = fileWrapper.getResource();
+        const resource = fileWrapper.getResource();
 
         resource.error = '';
         resource.loading = true;
 
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append("file", fileWrapper.getFile());
 
         Web.post(
@@ -72,10 +95,13 @@ export default class FileUploader {
             (response) => {
                 resource.loading = false;
 
-                Log.info(`Uploaded File ${fileWrapper.getFile().name}. Reference: ${response.data}`);
+                Log.info(`Uploaded File ${fileWrapper.getFile().name}. Reference: ${JSON.stringify(response.data)}`);
                 fileWrapper.setReference(response.data);
 
                 Event.EventTrigger.trigger(Constants.fileUploadEvent, fileWrapper.getReference());
+                if (this.onSuccessCallback) {
+                    this.onSuccessCallback(response.data);
+                }
             },
 
             (error) => {
@@ -83,6 +109,10 @@ export default class FileUploader {
                 resource.error = Util.extractError(error);
 
                 Event.EventTrigger.trigger(Constants.fileUploadErrorEvent, resource.error);
+
+                if (this.onErrorCallback) {
+                    this.onErrorCallback(resource.error);
+                }
             },
 
             {
@@ -94,9 +124,23 @@ export default class FileUploader {
     }
 
 
+    public onSuccess(callback: (data: any) => void) {
+        this.onSuccessCallback = callback;
+    }
+
+    public onError(callback: (error: any) => void) {
+        this.onErrorCallback = callback;
+    }
+
+
     public removeFile(file: File) {
         Log.info(`Removing File: ${file.name}`);
         this.uploads = this.uploads.filter((val) => val.getFile().name !== file.name);
+        Event.EventTrigger.trigger(Constants.fileUploadEvent);
+    }
+
+    public removeAllFiles() {
+        this.uploads = [];
         Event.EventTrigger.trigger(Constants.fileUploadEvent);
     }
     

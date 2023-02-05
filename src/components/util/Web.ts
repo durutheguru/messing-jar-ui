@@ -41,18 +41,18 @@ axios.interceptors.response.use(
           originalConfig._retry = true;
 
           try {
-            let accessToken = await LoginService.refreshAuthToken(
+            const accessToken = await LoginService.refreshAuthToken(
               authStore.getRefreshToken
             );
 
             error.config.headers["Authorization"] = `Bearer ${accessToken}`;
             return new Promise((resolve, reject) => {
               axios.request(originalConfig)
-              .then(response => {
-                resolve(response);
-              }).catch((err) => {
-                reject(err);
-              });
+                .then(response => {
+                  resolve(response);
+                }).catch((err) => {
+                  reject(err);
+                });
             });
           } catch (_error) {
             return Promise.reject(_error);
@@ -204,5 +204,41 @@ export default class Web {
 
     return eventSource;
   }
+
+
+  public static downloadFile(fileRef: string) {
+    const authStore = authTokenStore();
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', Web.BASE_URL + '/upload/' + fileRef, true);
+    xhr.setRequestHeader("Authorization", "Bearer " + authStore.getApiToken);
+    xhr.responseType = 'blob';
+    xhr.onload = function (e) {
+      if (this.status === 200) {
+        const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+
+        let filename = '';
+        
+        if (contentDisposition?.length){
+          filename = contentDisposition
+          .split(';')[1]
+          .trim()
+          .split('=')[1]
+          .replace(/['"]/g, '');
+        }
+        else {
+          filename = fileRef;
+        }
+
+        const blob = this.response;
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+      }
+    };
+    xhr.send();
+  }
+
 }
 
