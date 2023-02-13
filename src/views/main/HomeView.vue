@@ -10,7 +10,7 @@
     <app-header :drawer="drawer" />
 
     <v-main>
-      <v-container fluid>
+      <v-container id="route-container" fluid>
         <router-view></router-view>
       </v-container>
     </v-main>

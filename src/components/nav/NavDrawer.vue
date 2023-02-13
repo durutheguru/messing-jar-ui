@@ -13,7 +13,7 @@
 
         <v-divider></v-divider>
 
-        <div class="px-2 pt-2 text-sm">Chats...</div>
+        <div class="px-2 pt-2 font-bold">Chats...</div>
 
         <v-list>
             <v-list-item
@@ -29,7 +29,24 @@
 
         <v-divider></v-divider>
 
-        <div class="px-2 pt-2 text-sm">Groups...</div>
+        <div class="px-2 pt-2 font-bold flex">
+            <div class="grow">
+                Groups... 
+            </div>
+            <div class="flex-none">
+                <v-btn class="font-size-12"
+                    size="x-small"
+                    icon="mdi-plus"
+                    color="info"
+                    @click="showAddGroup()"
+                    >+
+                    <v-tooltip
+                        activator="parent"
+                        location="top"
+                    >Add Group</v-tooltip>
+                </v-btn>
+            </div>
+        </div>
 
         <v-list>
             <v-list-item 
@@ -60,6 +77,11 @@
 
     </v-navigation-drawer>
 
+    <add-group-dialog
+        v-bind:dialog="showAddGroupDialog"
+        v-on:close="showAddGroupDialog=false"
+     />
+
 </template>
   
 <script lang="ts">
@@ -68,9 +90,12 @@ import { defineComponent } from 'vue';
 import userDetailsStore from '@/store/modules/userDetails';
 import { mapState } from 'pinia';
 import Event from '@/components/core/Event';
+import AddGroupDialog from './AddGroupDialog.vue';
 
 
 declare interface NavDrawerData {
+
+    showAddGroupDialog: boolean,
 
     chats: Array<any>,
 
@@ -86,8 +111,14 @@ declare interface NavDrawerData {
 export default defineComponent({
     name: 'NavDrawer',
 
+    components: {
+        AddGroupDialog,
+    },
+
     data(): NavDrawerData {
         return {
+            showAddGroupDialog: false,
+
             chats: [
                 {
                     username: 'david_mayor',
@@ -219,6 +250,11 @@ export default defineComponent({
 
         goSettings() {
             this.$router.push("/settings");
+        },
+
+        showAddGroup() {
+            Log.info("Showing Add Group Dialog...");
+            this.showAddGroupDialog = true;
         },
     }
 

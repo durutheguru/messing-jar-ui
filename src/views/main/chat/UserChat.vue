@@ -142,11 +142,10 @@ export default defineComponent({
         },
 
         scrollBottom() {
-            var element = document.getElementById("app");
+            var element = document.getElementById("route-container");
 
             if (element) {
                 Log.info('Scrolling to bottom');
-                element.scrollTop = element.scrollHeight;
             }
         }
 
