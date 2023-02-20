@@ -37,7 +37,7 @@ function attachEventSourceHandlers(ws: WebSocket) {
 }
 
 
-export default async function (to: any, from: any) {
+export default async function () {
     try {
         const tokenStore = sseTokenStore(pinia);
         const now = LocalDateTime.now();

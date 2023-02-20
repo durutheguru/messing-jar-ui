@@ -136,6 +136,7 @@ export default defineComponent({
             this.myDetails = data.initiatorDetails;
             this.otherUserDetails = data.receiverDetails;
 
+            this.messageHistory = [];
             this.messageHistory.push(...data.history);
 
             this.scrollBottom();

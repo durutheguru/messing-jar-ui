@@ -5,10 +5,7 @@
         style="position:fixed;background:#0c4a6eED;color:white">
 
         <v-list>
-            <v-list-item 
-            :title="fullName" 
-            :prepend-avatar="profilePhotoPublicUrl"
-            :subtitle="email"></v-list-item>
+            <v-list-item :title="fullName" :prepend-avatar="profilePhotoPublicUrl" :subtitle="email"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
@@ -16,8 +13,7 @@
         <div class="px-2 pt-2 font-bold">Chats...</div>
 
         <v-list>
-            <v-list-item
-                v-for="(chat, index) in chats" :key="index" :value="chat" :to="'/chat/' + chat.username"
+            <v-list-item v-for="(chat, index) in chatPreviews" :key="index" :value="chat" :to="'/chat/' + chat.username"
                 class="py-2 my-2 text-white">
                 <template v-slot:prepend>
                     <v-avatar :image="chat.prependAvatar"></v-avatar>
@@ -31,27 +27,17 @@
 
         <div class="px-2 pt-2 font-bold flex">
             <div class="grow">
-                Groups... 
+                Groups...
             </div>
             <div class="flex-none">
-                <v-btn class="font-size-12"
-                    size="x-small"
-                    icon="mdi-plus"
-                    color="info"
-                    @click="showAddGroup()"
-                    >+
-                    <v-tooltip
-                        activator="parent"
-                        location="top"
-                    >Add Group</v-tooltip>
+                <v-btn class="font-size-12" size="x-small" icon="mdi-plus" color="info" @click="showAddGroup()">+
+                    <v-tooltip activator="parent" location="top">Add Group</v-tooltip>
                 </v-btn>
             </div>
         </div>
 
         <v-list>
-            <v-list-item 
-                v-for="(group, index) in groups" :key="index" :value="group" 
-                :to="'/group/' + group.groupName"
+            <v-list-item v-for="(group, index) in groupPreviews" :key="index" :value="group" :to="'/group/' + group.groupId"
                 class="py-2 my-2 text-white">
                 <template v-slot:prepend>
                     <v-avatar :image="group.prependAvatar"></v-avatar>
@@ -77,20 +63,19 @@
 
     </v-navigation-drawer>
 
-    <add-group-dialog
-        v-bind:dialog="showAddGroupDialog"
-        v-on:close="showAddGroupDialog=false"
-     />
+    <add-group-dialog v-bind:dialog="showAddGroupDialog" v-on:close="showAddGroupDialog = false" />
 
 </template>
-  
+
 <script lang="ts">
-import { Log, BaseVue, Constants } from '@/components/util';
+import { Log, BaseVue, Constants, Util } from '@/components/util';
 import { defineComponent } from 'vue';
 import userDetailsStore from '@/store/modules/userDetails';
 import { mapState } from 'pinia';
 import Event from '@/components/core/Event';
 import AddGroupDialog from './AddGroupDialog.vue';
+import { fetchPreviews } from '@/services/nav/chat-preview.query';
+import { useQuery } from '@vue/apollo-composable';
 
 
 declare interface NavDrawerData {
@@ -113,6 +98,16 @@ export default defineComponent({
 
     components: {
         AddGroupDialog,
+    },
+
+    setup() {
+        const { result, loading, error, refetch } = useQuery(fetchPreviews);
+        return {
+            fetchPreviewsResult: result,
+            fetchPreviewsLoading: loading,
+            fetchPreviewsError: error,
+            fetchPreviewsRefetch: refetch,
+        };
     },
 
     data(): NavDrawerData {
@@ -223,6 +218,41 @@ export default defineComponent({
 
         fullName(): string {
             return `${this.firstName} ${this.lastName}`;
+        },
+
+        chatPreviews(): Array<any> {
+            Log.info(`Chat Previews: ${JSON.stringify(this.fetchPreviewsResult)}`);
+
+            if (!this.fetchPreviewsResult || !Util.isValidArray(this.fetchPreviewsResult.fetchChatPreviews)) {
+                return [];
+            }
+
+            return this.fetchPreviewsResult.fetchChatPreviews.map((preview: any) => {
+                return {
+                    username: preview.username,
+                    prependAvatar: preview.profilePictureUrl,
+                    title: preview.fullName,
+                    subtitle: preview.lastMessage,
+                };
+            });
+        },
+
+        groupPreviews(): Array<any> {
+            Log.info(`Group Previews: ${JSON.stringify(this.fetchPreviewsResult)}`);
+
+            if (!this.fetchPreviewsResult || !Util.isValidArray(this.fetchPreviewsResult.fetchGroupPreviews)) {
+                return [];
+            }
+
+            return this.fetchPreviewsResult.fetchGroupPreviews.map((preview: any) => {
+                return {
+                    groupId: preview.groupId,
+                    groupName: preview.groupName,
+                    prependAvatar: preview.groupImageUrl,
+                    title: preview.groupName,
+                    subtitle: preview.lastMessage,
+                };
+            });
         }
     },
 
@@ -230,7 +260,7 @@ export default defineComponent({
         Log.info("Nav Drawer Mounted...");
         let self = this;
         Event.emitter.on(
-            Constants.sidebarToggleEvent, function() {
+            Constants.sidebarToggleEvent, function () {
                 self.drawerToggle = !self.drawerToggle;
             },
         );
@@ -260,7 +290,6 @@ export default defineComponent({
 
 });
 </script>
-  
+
 <style lang="sass" src="@/assets/ext.css" scoped></style>
-  
-  
+
