@@ -64,6 +64,7 @@ export default defineComponent({
         history: Array as PropType<Array<any>>,
         myDetails: Object as PropType<any>,
         otherUserDetails: Object as PropType<any>,
+        otherUsersDetails: Array as PropType<Array<any>>,
     },
 
     computed: {

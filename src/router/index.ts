@@ -54,7 +54,7 @@ const router = createRouter({
 
         {
           path: 'group',
-          alias: ['group/:group_name'],
+          alias: ['group/:groupId'],
           name: 'group',
           component: () => import('@/views/main/chat/GroupChat.vue'),
         },

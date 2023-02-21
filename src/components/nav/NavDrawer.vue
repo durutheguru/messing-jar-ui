@@ -82,10 +82,6 @@ declare interface NavDrawerData {
 
     showAddGroupDialog: boolean,
 
-    chats: Array<any>,
-
-    groups: Array<any>,
-
     mainActionItems: Array<any>,
 
     drawerToggle: boolean | null,
@@ -113,72 +109,6 @@ export default defineComponent({
     data(): NavDrawerData {
         return {
             showAddGroupDialog: false,
-
-            chats: [
-                {
-                    username: 'david_mayor',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                    title: 'David Mayor',
-                    subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-                },
-                {
-                    username: 'elvis_mukky',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                    title: 'Elvis Muktar',
-                    subtitle: `Wish I could come, but I'm out of town this weekend.`,
-                },
-                {
-                    username: 'anna_siseee',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                    title: 'Anna Sise',
-                    subtitle: 'Do you have Paris recommendations? Have you ever been?',
-                },
-                {
-                    username: 'jen_jen',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-                    title: 'Jennyyy',
-                    subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
-                },
-                {
-                    username: 'sussy_samuel',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                    title: 'Susan Samuels',
-                    subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-                },
-            ],
-
-            groups: [
-                {
-                    groupName: 'ballers',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                    title: 'Ballers',
-                    subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-                },
-                {
-                    groupName: 'fiddlerz',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                    title: 'Fiddlers',
-                    subtitle: `Wish I could come, but I'm out of town this weekend.`,
-                },
-                {
-                    groupName: 'tuny_tunez',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                    title: 'Music Lovers',
-                    subtitle: 'Do you have Paris recommendations? Have you ever been?',
-                },
-                {
-                    groupName: 'donors',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-                    title: 'Donors',
-                    subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
-                },
-                {
-                    groupName: 'bookies',
-                    prependAvatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                    title: 'Book Club',
-                    subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-                },
-            ],
 
             mainActionItems: [
                 {
