@@ -36,6 +36,7 @@ nav {
     position: fixed;
     z-index: 166;
     border-radius: 6px;
+    display: none;
 }
 
 

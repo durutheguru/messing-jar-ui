@@ -1,6 +1,12 @@
 <template>
 
-    <div id="group-chat-header-descriptor" class="flex flex-col gap-1 p-3 mr-4" v-if="groupDataResult">
+    <v-banner
+      lines="one"
+      color="deep-purple-accent-4"
+      class="my-4"
+      v-if="groupDataResult"
+    >
+      <v-banner-text>
         <div class="text-3xl">
             {{ groupDataResult.fetchGroupDetails.name }}
         </div>
@@ -22,7 +28,12 @@
                 </v-list>
             </div>
         </div>
-    </div>
+      </v-banner-text>
+
+      <template v-slot:actions>
+        <v-btn @click="showAddUserToGroupDialog = true">Add User</v-btn>
+      </template>
+    </v-banner>
 
     <message-timeline 
         :user="username" 
@@ -32,6 +43,11 @@
         style="margin-top:9em" />
 
     <chat-footer />
+
+    <add-user-to-group-dialog 
+        :group-id="groupId"
+        v-bind:dialog="showAddUserToGroupDialog" v-on:close="showAddUserToGroupDialog = false"
+    />
 
 </template>
 
@@ -46,6 +62,7 @@ import { fetchGroupChatData } from '@/views/main/chat/services/group-chat-data.q
 import { useQuery } from '@vue/apollo-composable';
 import type { ApolloError } from 'apollo-client';
 import { Util } from '@/components/util';
+import AddUserToGroupDialog from './dialogs/AddUserToGroupDialog.vue';
 
 
 declare interface GroupChatData {
@@ -57,6 +74,7 @@ declare interface GroupChatData {
     groupDataLoading: Ref<boolean>,
     groupDataError: Ref<ApolloError | null>,
     groupDataRefetch: any,
+    showAddUserToGroupDialog: boolean,
 }
 
 
@@ -66,7 +84,8 @@ export default defineComponent({
 
     components: {
         ChatFooter,
-        MessageTimeline
+        MessageTimeline,
+        AddUserToGroupDialog
     },
 
     data(): GroupChatData {
@@ -86,6 +105,7 @@ export default defineComponent({
             groupDataLoading: loading,
             groupDataError: error,
             groupDataRefetch: refetch,
+            showAddUserToGroupDialog: false,
         };
     },
 

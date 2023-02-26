@@ -18,5 +18,18 @@ export default class GroupService {
     }
 
 
+    public static addUserToGroup(
+        groupId: string,
+        userId: string,
+        successHandler: APISuccessCallback,
+        errorHandler: APIErrorCallback,
+    ) {
+        Web.post(
+            '/api/v1/group/user', {groupId, userId}, 
+            successHandler, errorHandler
+        );
+    }
+
+
 }
 

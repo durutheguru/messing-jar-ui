@@ -63,7 +63,7 @@ declare interface AppHeaderData {
   menu: Boolean,
   search: string | null,
   searchResults: Array<any>
-};
+}
 
 export default defineComponent({
   name: 'AppHeader',
