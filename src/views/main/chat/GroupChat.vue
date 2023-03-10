@@ -35,14 +35,14 @@
       </template>
     </v-banner>
 
-    <message-timeline 
+    <group-message-timeline 
         :user="username" 
         :history="messageHistory"
-        :my-details="myDetails"
-        :other-users-details="otherUsersDetails"
         style="margin-top:9em" />
 
-    <chat-footer />
+    <chat-footer 
+        @send-text-message="sendTextMessage"
+        @send-file-message="sendFileMessage" />
 
     <add-user-to-group-dialog 
         :group-id="groupId"
@@ -54,15 +54,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import type { Ref } from 'vue';
-import MessageTimeline from './components/MessageTimeline.vue';
+import GroupMessageTimeline from './components/GroupMessageTimeline.vue';
 import ChatFooter from './components/ChatFooter.vue';
 import { mapState } from 'pinia';
 import authTokenStore from '@/store/modules/authToken';
 import { fetchGroupChatData } from '@/views/main/chat/services/group-chat-data.query';
 import { useQuery } from '@vue/apollo-composable';
 import type { ApolloError } from 'apollo-client';
-import { Util } from '@/components/util';
+import { Constants, Log, Util } from '@/components/util';
 import AddUserToGroupDialog from './dialogs/AddUserToGroupDialog.vue';
+import { EventTrigger } from '@/components/core/Event';
+import Event from "@/components/core/Event";
 
 
 declare interface GroupChatData {
@@ -84,16 +86,14 @@ export default defineComponent({
 
     components: {
         ChatFooter,
-        MessageTimeline,
+        GroupMessageTimeline,
         AddUserToGroupDialog
     },
 
     data(): GroupChatData {
         const { result, loading, error, refetch } = useQuery(
             fetchGroupChatData, 
-            {
-                groupId: this.$route.params.groupId
-            }
+            { groupId: this.$route.params.groupId }
         );
 
         return {
@@ -113,15 +113,96 @@ export default defineComponent({
         ...mapState(authTokenStore, ['username']),
 
         groupId: function() {
-            return this.$route.params.groupId;
+            let groupId = this.$route.params.groupId;
+            return groupId instanceof Array<string> ? groupId[0] : groupId;
         },
         
+    },
+
+    mounted() {
+        Log.info('Group Chat mounted');
+        EventTrigger.trigger(
+            Constants.webSocketOutgoingMessage,
+            {
+                type: "INITIALIZE_GROUP",
+                payload: JSON.stringify(
+                    {
+                        groupId: this.groupId,
+                    }
+                )
+            }
+        );
+
+        Event.emitter.on(
+            Constants.webSocketNewGroupMessage,
+            (event: any) => {
+                Log.info(`WebSocket Chat Message: ${JSON.stringify(event)}`);
+                this.handleIncomingGroupMessageEvent(event);
+            },
+        );
+
+        Event.emitter.on(
+            Constants.webSocketGroupHistory,
+            (event: any) => {
+                Log.info(`WebSocket Chat History: ${JSON.stringify(event)}`);
+                this.handleIncomingGroupChatHistory(event);
+            },
+        );
     },
 
     methods: {
         
         quantity(n: number, item: string) {
             return Util.quantity(n, item, true);
+        },
+
+        handleIncomingGroupChatHistory(event: any) {
+            Log.info('Handling Incoming Group Chat History');
+            var data = JSON.parse(event.message);
+
+            this.myDetails = data.initiatorDetails;
+            this.otherUsersDetails = data.otherMembersDetails;
+            this.messageHistory = [];
+            this.messageHistory.push(...data.history);
+        },
+
+        handleIncomingGroupMessageEvent(event: any) {
+            Log.info('Handling Incoming Group Message Event');
+            var message = Util.extractWSMessage(event);
+
+            Log.info(`Final Message: ${JSON.stringify(message)}`);
+            if (message.groupId === this.groupId) {
+                this.messageHistory.push(message);
+            }
+        },
+
+        sendTextMessage(message: string) {
+            this.sendMessage(message, "TEXT");
+        },
+
+
+        sendFileMessage(message: any) {
+            this.sendMessage(message, "FILE");
+        },
+
+
+        sendMessage(message: any, type: String) {
+            Log.info(`Sending ${type} message`);
+            EventTrigger.trigger(
+                Constants.webSocketOutgoingMessage, 
+                {
+                    type: "GROUP_MESSAGE",
+                    payload: JSON.stringify(
+                        {
+                            groupId: this.groupId,
+                            message,
+                            type,
+                        },
+                    )
+                }
+            );
+
+            this.message = '';
         },
 
     },

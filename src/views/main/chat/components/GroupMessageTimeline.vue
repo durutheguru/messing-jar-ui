@@ -3,12 +3,12 @@
     <section id="message-timeline" v-if="history && history.length">
 
         <div v-for="(msg, index) in history" :key="index">
-            <div v-if="msg.to == user" 
+            <div v-if="msg.senderDetails.username !== user" 
                 class="flex flex-row mb-4">
                 <div class="flex flex-col gap-2">
                     <v-list-item 
-                        :title="otherUserFullName" 
-                        :prepend-avatar="otherUserDetails.profilePhotoPublicUrl||'https://randomuser.me/api/portraits/women/85.jpg'">
+                        :title="userFullName(msg.senderDetails)" 
+                        :prepend-avatar="msg.senderDetails.profilePhotoPublicUrl||'https://randomuser.me/api/portraits/women/85.jpg'">
                     </v-list-item>
                     <div class="bg-indigo-500 shadow-xl p-2 mx-3 rounded-md">
                         <span class="text-white">
@@ -22,14 +22,14 @@
                 </div>
             </div>
 
-            <div v-if="msg.from == user" 
+            <div v-if="msg.senderDetails.username === user" 
                 class="flex flex-row-reverse w-full mb-4">
                 <div class="flex flex-col gap-2">
                     <div class="flex flex-row-reverse">
                         <v-list-item 
                             class="content-right" 
                             title="You"
-                            :prepend-avatar="myDetails.profilePhotoPublicUrl||'https://randomuser.me/api/portraits/women/85.jpg'">
+                            :prepend-avatar="msg.senderDetails.profilePhotoPublicUrl||'https://randomuser.me/api/portraits/women/85.jpg'">
                         </v-list-item>
                     </div>
                     <div class="bg-emerald-500 shadow-xl p-2 mx-3 rounded-md">
@@ -62,21 +62,6 @@ export default defineComponent({
     props: {
         user: String,
         history: Array as PropType<Array<any>>,
-        myDetails: Object as PropType<any>,
-        otherUserDetails: Object as PropType<any>,
-    },
-
-    computed: {
-        // ...
-
-        myFullName() {
-            return `${this.myDetails.firstName} ${this.myDetails.lastName}`;
-        },
-
-        otherUserFullName() {
-            return `${this.otherUserDetails.firstName} ${this.otherUserDetails.lastName}`;
-        },
-
     },
 
     methods: {
@@ -84,7 +69,11 @@ export default defineComponent({
 
         download(msgData: any): void {
             Web.downloadFile(msgData.message)
-        }
+        },
+
+        userFullName(details: any) {
+            return `${details.firstName} ${details.lastName}`;
+        },
 
     },
 });

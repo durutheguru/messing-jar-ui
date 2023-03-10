@@ -9,7 +9,7 @@ Event.emitter.on(
   (event: any) => {
     const store = userDetailsStore(pinia);
 
-    Log.info(`Profile Update Event received: ${event}`);
+    Log.info(`Profile Update Event received: ${JSON.stringify(event)}`);
     let update = JSON.parse(event).data;
     update = JSON.parse(update);
 

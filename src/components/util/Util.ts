@@ -22,8 +22,8 @@ export default class Util {
   private static throttleObject: any = {};
 
   public static pickFileType(fileRefs: any, filetypes: any) {
-    let array = [];
-    for (let i of fileRefs) {
+    const array = [];
+    for (const i of fileRefs) {
       if (filetypes.includes(fileRefs[i].fileType)) {
         array.push(fileRefs[i]);
       }
@@ -33,7 +33,7 @@ export default class Util {
   }
 
   public static removeLastChar(theString: string, char: string) {
-    let newTime =
+    const newTime =
       theString.slice(0, theString.lastIndexOf(char)) +
       theString.slice(theString.lastIndexOf(char) + 1, theString.length);
     return newTime;
@@ -159,7 +159,7 @@ export default class Util {
   }
 
   public static extractWSMessage(event: any): any {
-    let message = event.message.substring(1, event.message.length - 1);
+    let message = event.message;
             
     message = message.replace(/\\/g, '');
     return message = JSON.parse(message);
@@ -214,7 +214,7 @@ export default class Util {
       dest = {};
     }
 
-    for (let i in src) {
+    for (const i in src) {
       if (src.hasOwnProperty(i)) {
         dest[i] = src[i];
       }
@@ -258,13 +258,13 @@ export default class Util {
   }
 
   public static dateMoment(date: string, format?: string): string {
-    return Util.moment(date, !!format ? format : Constants.defaultDateFormat);
+    return Util.moment(date, format ? format : Constants.defaultDateFormat);
   }
 
   public static dateTimeMoment(dateTime: string, format?: string): string {
     return Util.moment(
       dateTime,
-      !!format ? format : Constants.defaultDateTimeFormat
+      format ? format : Constants.defaultDateTimeFormat
     );
   }
 
@@ -274,14 +274,14 @@ export default class Util {
   ): string {
     return Util.moment(
       zoneDateTime,
-      !!format ? format : Constants.defaultZoneDateTimeFormat
+      format ? format : Constants.defaultZoneDateTimeFormat
     );
   }
 
   public static currencyFormat(num: number, currency?: string) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: !!currency ? currency : Constants.defaultCurrency,
+      currency: currency ? currency : Constants.defaultCurrency,
     }).format(num);
   }
 

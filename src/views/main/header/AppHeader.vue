@@ -28,7 +28,7 @@
 
       </template>
 
-      <v-card min-width="300" class="pb-5">
+      <v-card v-show="searchResults.length" min-width="300" class="pb-5">
         <v-list>
           <v-list-subheader v-show="searchResults.length">Results...</v-list-subheader>
           <v-list-item 

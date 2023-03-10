@@ -35,7 +35,11 @@ export default class Constants {
 
   public static webSocketNewChatMessage = "new-chat-message";
 
+  public static webSocketNewGroupMessage = "new-group-message";
+
   public static webSocketChatHistory = "chat-history";
+
+  public static webSocketGroupHistory = "group-history";
 
   // End Event Related Constants
 

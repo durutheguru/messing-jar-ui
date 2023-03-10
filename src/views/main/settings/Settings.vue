@@ -85,6 +85,8 @@ import SettingsSevice from './service/SettingsService';
 import FileUploader from "@/components/file-uploader/FileUploader";
 import Event from '@/components/core/Event';
 import SettingsService from "./service/SettingsService";
+import { mapState } from 'pinia';
+import authTokenStore from '@/store/modules/authToken';
 
 
 export default defineComponent({
@@ -98,10 +100,12 @@ export default defineComponent({
             profilePhotoRef: '',
             profilePhotoUrl: '',
             fileUploader: new FileUploader(
-                "/file__upload",
-                1,
-                /.*\.(jpg|jpeg|png)$/,
-                1_048_576
+                {
+                    uploadUrl: "/file__upload",
+                    maxFiles: 1,
+                    allowedExtensions: /.*\.(jpg|jpeg|png)$/,
+                    maxFileSize: 5_242_880
+                }
             ),
 
             validation: {
@@ -129,6 +133,10 @@ export default defineComponent({
                 successMessage: '',
             },
         };
+    },
+
+    computed: {
+        ...mapState(authTokenStore, ['username']),
     },
 
 
@@ -167,6 +175,7 @@ export default defineComponent({
             this.response.errorMessage = '';
 
             let settings = {
+                "username": this.username,
                 "firstName": this.firstName,
                 "lastName": this.lastName,
                 "email": this.email,

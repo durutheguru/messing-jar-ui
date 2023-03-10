@@ -23,6 +23,7 @@ import authTokenStore from '@/store/modules/authToken';
 import Event from "@/components/core/Event";
 
 
+
 export interface UserChatData {
     message: string;
     messageHistory: any[];
@@ -47,7 +48,7 @@ export default defineComponent({
             messageHistory: [],
             myDetails: {},
             otherUserDetails: {},
-        }
+        };
     },
 
     computed: {
@@ -125,8 +126,8 @@ export default defineComponent({
             if ([message.from, message.to].includes(this.otherUser)) {
                 Log.info(`New Message with User ${this.otherUser}`)
                 this.messageHistory.push(message);
+                this.scrollBottom();
             }
-            this.scrollBottom();
         },
 
         handleIncomingChatHistory(event: any) {
@@ -149,7 +150,7 @@ export default defineComponent({
                 Log.info('Scrolling to bottom');
                 element.scrollTop = element.scrollHeight;
             }
-        }
+        },
 
     }
 })
